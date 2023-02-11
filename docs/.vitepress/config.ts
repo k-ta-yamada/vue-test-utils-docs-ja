@@ -45,7 +45,7 @@ export default defineConfig({
         text: 'Essentials',
         collapsable: false,
         children: [
-          { text: 'Getting Started', link: '/guide/' },
+          { text: 'Getting Started 🇯🇵', link: '/guide/' },
           { text: 'A Crash Course', link: '/guide/essentials/a-crash-course' },
           {
             text: 'Conditional Rendering',
