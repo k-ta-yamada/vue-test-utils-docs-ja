@@ -1,0 +1,27 @@
+{
+  "name": "vue-test-utils-docs-ja",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/k-ta-yamada/vue-test-utils-docs-ja.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/k-ta-yamada/vue-test-utils-docs-ja/issues"
+  },
+  "homepage": "https://github.com/k-ta-yamada/vue-test-utils-docs-ja#readme",
+  "dependencies": {
+    "vitepress": "0.22.4"
+  }
+}
