@@ -4,7 +4,7 @@ import packageJSON from '../../package.json'
 export default defineConfig({
   title: `Vue Test Utils`,
   description: 'The documentation for the official Vue Test Utils',
-  base: '/vue-test-utils-docs-ja/',
+  // base: '/vue-test-utils-docs-ja/',
   locales: {
     '/': {
       lang: 'en-US',
@@ -34,7 +34,7 @@ export default defineConfig({
         text: 'Changelog',
         link: 'https://github.com/vuejs/test-utils/releases'
       },
-      { text: 'Origin', link: 'https://test-utils.vuejs.org/' }
+      { text: 'Origin docs', link: 'https://test-utils.vuejs.org/' }
     ],
     sidebar: [
       {
