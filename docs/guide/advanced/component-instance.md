@@ -1,10 +1,10 @@
 # Component Instance
 
-[`mount`](/api/#mount) returns a `VueWrapper` with lots of convenient methods for testing Vue components. Sometimes you might want access to the underlying Vue instance. You can access that with the `vm` property.
+[`mount`](/api/#mount) は、Vue コンポーネントをテストするための便利なメソッドをたくさん持つ `VueWrapper` を返します。時には、基礎となる Vue のインスタンスにアクセスしたい場合があります。その場合は、`vm` プロパティでアクセスできます。
 
-## A Simple Example
+## 簡単な例 {#a-simple-example}
 
-Here is a simple component that combines props and data to render a greeting:
+ここでは、props と data を組み合わせて挨拶をレンダリングするシンプルなコンポーネントを紹介します:
 
 ```ts
 test('renders a greeting', () => {
@@ -28,7 +28,7 @@ test('renders a greeting', () => {
 })
 ```
 
-Let's take a look at what's available on `vm` by with `console.log(wrapper.vm)`:
+`console.log(wrapper.vm)` で、`vm` 上で何が利用できるのか見てみましょう:
 
 ```js
 {
@@ -38,13 +38,13 @@ Let's take a look at what's available on `vm` by with `console.log(wrapper.vm)`:
 }
 ```
 
-We can see both `msg1` and `msg2`! Things like `methods` and `computed` properties will show up too, if they are defined. When writing a test, while it's generally recommended to assert against the DOM (using something like `wrapper.html()`), in some rare circumstances you might need access to the underlying Vue instance. 
+`msg1` と `msg2` の両方が表示されます! `methods` や `computed` プロパティのようなものも、それらが定義されていれば表示されます。テストを書くとき、一般的には DOM に対してアサーションすることをお勧めしますが（`wrapper.html()` のようなものを使う）、稀に、基礎となる Vue インスタンスにアクセスする必要があるかもしれません。
 
-## Usage with `getComponent` and `findComponent`
+## `getComponent` と `findComponent` を用いた使用法 {#usage-with-get-component-and-find-component}
 
-`getComponent` and `findComponent` return a `VueWrapper` - much like the one get from `mount`. This means you can also access all the same properties, including `vm`, on the result of `getComponent` or `findComponent`.
+`getComponent` と `findComponent` は、`mount` から取得したものと同じように `VueWrapper` を返します。これは、`getComponent` や `findComponent` の結果に対して、`vm` を含むすべての同じプロパティにアクセスできることを意味します。
 
-Here's a simple example:
+ここで簡単な例を挙げてみましょう:
 
 ```js
 test('asserts correct props are passed', () => {
@@ -65,16 +65,16 @@ test('asserts correct props are passed', () => {
 })
 ```
 
-A more thorough way to test this would be asserting against the rendered content. Doing this means you asserts the correct prop is passed *and* rendered. 
+これをより徹底的にテストするには、レンダリングされたコンテンツに対してアサーションするのがよいでしょう。こうすることで、正しい prop が渡され、*かつ* レンダリングされることを保証することになります。
 
 ::: tip
 
-Note: if you are using a `<script setup>` component, `vm` will not be available. That's because `<script setup>` components are [closed by default](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md#exposing-components-public-interface). For these components, and in general, consider avoiding `vm` and asserting against the rendered markup.
+注意: `<script setup>` コンポーネントを使用している場合、`vm` は使用できません。これは、`<script setup>` コンポーネントが[デフォルトで閉じられている](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md#exposing-components-public-interface) からです。これらのコンポーネントや一般的には、`vm` を避け、レンダリングされたマークアップに対してアサートすることを検討してください。
 :::
 
-:::warning WrapperLike type when using CSS selector
-When using `wrapper.findComponent('.foo')` for example then VTU will return the `WrapperLike` type. This is because functional components
-would need a `DOMWrapper` otherwise a `VueWrapper`. You can force to return a `VueWrapper` by providing the correct component type:
+:::warning CSS セレクタ使用時の WrapperLike タイプ
+例えば、 `wrapper.findComponent('.foo')` を使うとき、VTU は `WrapperLike` タイプを返します。これは、機能的なコンポーネントが
+`DOMWrapper` を必要とし、そうでなければ `VueWrapper` を必要とするからです。正しいコンポーネントタイプを提供することで、`VueWrapper` を返すように強制することができます。
 
 ```typescript
 wrapper.findComponent('.foo') // returns WrapperLike
@@ -83,7 +83,7 @@ wrapper.findComponent<DefineComponent>('.foo') // returns VueWrapper
 ```
 :::
 
-## Conclusion
+## 結論 {#conclusion}
 
-- use `vm` to access the internal Vue instance
-- `getComponent` and `findComponent` return a Vue wrapper. Those Vue instances are also available via `vm`
+- Vue の内部インスタンスにアクセスするために `vm` を使用します。
+- `getComponent` と `findComponent` は、Vue のラッパーを返します。これらの Vue インスタンスは、`vm` を介して利用することもできます。

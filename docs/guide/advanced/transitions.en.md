@@ -1,8 +1,8 @@
 # Transitions
 
-一般に、transition の結果の DOM をテストしたい場合があります。そのため、Vue Test Utils はデフォルトで `<transition>` と `<transition-group>` をモックしています。
+In general, you may want to test the resulting DOM after a transition, and this is why Vue Test Utils mocks `<transition>` and `<transition-group>` by default.
 
-以下は、フェード遷移で包まれたコンテンツをトグルさせるシンプルなコンポーネントです:
+Following is a simple component that toggles a content wrapped in a fading transition:
 
 ```vue
 <template>
@@ -38,7 +38,7 @@ export default {
 </style>
 ```
 
-Vue Test Utils は組み込みの transition をスタブ化するので、他のコンポーネントをテストするのと同じように、上記のコンポーネントをテストすることができます:
+Since Vue Test Utils stubs built-in transitions, you can test the component above as you'd test any other component:
 
 ```js
 import Component from './Component.vue'

@@ -1,34 +1,34 @@
-# Write components that are easy to test
+# テストしやすいコンポーネントを書く {#write-components-that-are-easy-to-test}
 
-Vue Test Utils helps you write tests for Vue components. However, there's only so much VTU can do.
+Vue Test Utils は、Vue コンポーネントのテストを書くのに役立ちます。しかし、VTU ができることは限られています。
 
-Following is a list of suggestions to write code that is easier to test, and to write tests that are meaningful and simple to maintain.
+以下は、テストをしやすいコードを書き、意味のあるテストを書き、保守を簡単にするための提案のリストです。
 
-The following list provide general guidance and it might come in handy in common scenarios.
+以下のリストは一般的なガイダンスであり、一般的なシナリオで役に立つかもしれません。
 
-## Do not test implementation details
+## 実装の詳細をテストしない {#do-not-test-implementation-details}
 
-Think in terms of inputs and outputs from a user perspective. Roughly, this is everything you should take into account when writing a test for a Vue component:
+ユーザーの視点からの入力と出力で考える。大雑把に言うと、Vue コンポーネントのテストを書くときに考慮すべきことは、このようなことです:
 
-| **Inputs**   | Examples                                          |
-| ------------ | ------------------------------------------------- |
-| Interactions | Clicking, typing... any "human" interaction       |
-| Props        | The arguments a component receives                |
-| Data streams | Data incoming from API calls, data subscriptions… |
+| **入力**      | 例                                                   |
+| ------------ | ---------------------------------------------------- |
+| Interactions | クリック、タイピング...あらゆる "ヒューマン "インタラクション |
+| Props        | コンポーネントが受け取る引数                             |
+| Data streams | APIコールやデータのサブスクリプションから入ってくるデータ... |
 
-| **Outputs**  | Examples                                       |
-| ------------ | ---------------------------------------------- |
-| DOM elements | Any _observable_ node rendered to the document |
-| Events       | Emitted events (using `$emit`)                 |
-| Side Effects | Such as `console.log` or API calls             |
+| **出力**      | 例                                                   |
+| ------------ | ---------------------------------------------------- |
+| DOM elements | ドキュメントにレンダリングされた任意の _observable_ なノード |
+| Events       | 放出されるイベント（`$emit` を使用）                      |
+| Side Effects | `console.log` や API コールなど                        |
 
-**Everything else is implementation details**.
+**それ以外はすべて、実装の詳細です**。
 
-Notice how this list does not include elements such as internal methods, intermediate states or even data.
+このリストには、内部メソッド、中間状態、データなどの要素が含まれていないことに注意してください。
 
-The rule of thumb is that **a test should not break on a refactor**, that is, when we change its internal implementation without changing its behavior. If that happens, the test might rely on implementation details.
+経験則では、**テストはリファクタリングで壊れるべきではない** とされています。つまり、動作を変えずに内部実装を変更する場合です。もしそうなった場合、テストは実装の詳細に依存することになるかもしれません。
 
-For example, let's assume a basic Counter component that features a button to increment a counter:
+例えば、カウンターをインクリメントするためのボタンを備えた基本的な Counter コンポーネントを想定してみましょう:
 
 ```vue
 <template>
@@ -50,7 +50,7 @@ export default {
 </script>
 ```
 
-We could write the following test:
+次のようなテストが書けます:
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -68,13 +68,13 @@ test('counter text updates', async () => {
 })
 ```
 
-Notice how here we're updating its internal data, and we also rely on details (from a user perspective) such as CSS classes.
+ここでは、内部データを更新しており、CSSクラスなどの詳細（ユーザーの視点）にも依存していることに注目してください。
 
 :::tip
-Notice that changing either the data or the CSS class name would make the test fail. The component would still work as expected, though. This is known as a **false positive**.
+データまたは CSS クラス名のいずれかを変更すると、テストが失敗することに注意してください。しかし、コンポーネントは期待通りに動作します。これは **誤検出** と呼ばれるものです。
 :::
 
-Instead, the following test tries to stick with the inputs and outputs listed above:
+代わりに、次のテストでは、上記の入力と出力にこだわるようにしています:
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -92,34 +92,34 @@ test('text updates on clicking', async () => {
 })
 ```
 
-Libraries such as [Vue Testing Library](https://github.com/testing-library/vue-testing-library/) are build upon these principles. If you are interested in this approach, make sure you check it out.
+[Vue Testing Library](https://github.com/testing-library/vue-testing-library/) のようなライブラリは、この原則に基づいて構築されています。もし、このアプローチに興味があれば、ぜひチェックしてみてください。
 
-## Build smaller, simpler components
+## より小さく、よりシンプルな部品を作る {#build-smaller-simpler-components}
 
-A general rule of thumb is that if a component does less, then it will be easier to test.
+一般的な経験則では、あるコンポーネントの機能が小さいほど、テストがしやすいと言われています。
 
-Making smaller components will make them more composable and easier to understand. Following is a list of suggestions to make components simpler.
+コンポーネントをより小さくすることで、よりコンポーザブルになり、理解しやすくなります。以下は、コンポーネントをよりシンプルにするための提案リストです。
 
-### Extract API calls
+### APIコールの抽出 {#extract-api-calls}
 
-Usually, you will perform several HTTP requests throughout your application. From a testing perspective, HTTP requests provide inputs to the component, and a component can also send HTTP requests.
+通常、アプリケーション全体を通して、いくつかの HTTP リクエストを実行することになります。テストの観点からは、HTTP リクエストはコンポーネントへの入力を提供し、コンポーネントは HTTP リクエストを送信することもできます。
 
 :::tip
-Check out the [Making HTTP requests](../advanced/http-requests.md) guide if you are unfamiliar with testing API calls.
+APIコールのテストに不慣れな方は、[Making HTTP requests](../advanced/http-requests.md) のガイドをご覧ください。
 :::
 
-### Extract complex methods
+### 複雑なメソッドを抽出する {#extract-complex-methods}
 
-Sometimes a component might feature a complex method, perform heavy calculations, or use several dependencies.
+コンポーネントが複雑なメソッドを備えていたり、重い計算を実行したり、複数の依存関係を使用したりすることがあります。
 
-The suggestion here is to **extract this method and import it to the component**. This way, you can test the method in isolation using Jest or any other test runner.
+ここで提案したいのは、**このメソッドを抽出してコンポーネントにインポートすることです**。そうすれば、Jest やその他のテストランナーを使って、このメソッドを単独でテストすることができます。
 
-This has the additional benefit of ending up with a component that's easier to understand because complex logic is encapsulated in another file.
+また、複雑なロジックが別のファイルにカプセル化されているため、最終的に理解しやすいコンポーネントになるという利点もあります。
 
-Also, if the complex method is hard to set up or slow, you might want to mock it to make the test simpler and faster. Examples on [making HTTP requests](../advanced/http-requests.md) is a good example – axios is quite a complex library!
+また、複雑なメソッドを設定するのが難しい、あるいは遅い場合は、モックを作成してテストを単純化し、高速化するのもよいでしょう。[making HTTP requests](../advanced/http-requests.md) の例などは良い例です。axios はかなり複雑なライブラリですから!
 
-## Write tests before writing the component
+## コンポーネントを書く前にテストを書く {#write-tests-before-writing-the-component}
 
-You can't write untestable code if you write tests beforehand!
+あらかじめテストを書いておけば、テスト不能なコードは書けません!
 
-Our [Crash Course](../essentials/a-crash-course.md) offers an example of how writing tests before code leads to testable components. It also helps you detect and test edge cases.
+この [Crash Course](../essentials/a-crash-course.md) では、コードの前にテストを書くことが、いかにテスト可能なコンポーネントにつながるかを例示しています。また、エッジケースを検出し、テストするのに役立ちます。

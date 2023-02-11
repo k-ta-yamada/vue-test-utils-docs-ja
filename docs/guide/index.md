@@ -1,19 +1,19 @@
 # Getting Started
 
-Welcome to Vue Test Utils, the official testing utility library for Vue.js!
+Vue.js の公式テストユーティリティライブラリ、Vue Test Utils へようこそ!
 
-This is the documentation for Vue Test Utils v2, which targets Vue 3.
+これは、Vue 3 をターゲットとする Vue Test Utils v2 のドキュメントです。
 
-In short:
+簡単に言うと:
 
-- [Vue Test Utils 1](https://github.com/vuejs/vue-test-utils/) targets [Vue 2](https://github.com/vuejs/vue/).
-- [Vue Test Utils 2](https://github.com/vuejs/test-utils/) targets [Vue 3](https://github.com/vuejs/vue-next/).
+- [Vue Test Utils 1](https://github.com/vuejs/vue-test-utils/) のターゲットは [Vue 2](https://github.com/vuejs/vue/) です。
+- [Vue Test Utils 2](https://github.com/vuejs/test-utils/) のターゲットは [Vue 3](https://github.com/vuejs/vue-next/) です。
 
-## What is Vue Test Utils?
+## Vue Test Utilsとは? {#what-is-vue-test-utils}
 
-Vue Test Utils (VTU) is a set of utility functions aimed to simplify testing Vue.js components. It provides some methods to mount and interact with Vue components in an isolated manner.
+Vue Test Utils (VTU) は、Vue.js コンポーネントのテストを簡素化することを目的としたユーティリティ関数のセットです。Vue コンポーネントをマウントし、分離された方法で対話するためのいくつかのメソッドを提供します。
 
-Let's see an example:
+例を見てみましょう:
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -38,13 +38,13 @@ test('displays message', () => {
 
 ## What Next?
 
-To see Vue Test Utils in action, [take the Crash Course](../guide/essentials/a-crash-course.md), where we build a simple Todo app using a test-first approach.
+Vue Test Utils の動作を確認するには、[クラッシュコースを受講してください](../guide/essentials/a-crash-course.md)。ここでは、テストファーストのアプローチでシンプルな Todo アプリを構築します。
 
-Docs are split into two main sections:
+ドキュメントは、主に2つのセクションに分かれています:
 
-- **Essentials**, to cover common use cases you'll face when testing Vue components.
-- **Vue Test Utils in Depth**, to explore other advanced features of the library.
+- **Essentials**, Vueコンポーネントをテストする際に直面する一般的なユースケースをカバーします。
+- **Vue Test Utils in Depth**, ライブラリの他の高度な機能を探ります。
 
-You can also explore the full [API](../api/).
+また、完全な [API](../api/) を探索することもできます。
 
-Alternatively, if you prefer to learn via video, there is [a number of lectures available here](https://www.youtube.com/playlist?list=PLC2LZCNWKL9ahK1IoODqYxKu5aA9T5IOA).
+また、ビデオで学習したい場合は、[ここで多くの講義を受けることができます](https://www.youtube.com/playlist?list=PLC2LZCNWKL9ahK1IoODqYxKu5aA9T5IOA)。

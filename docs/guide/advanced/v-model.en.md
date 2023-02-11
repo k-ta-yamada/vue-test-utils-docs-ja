@@ -1,14 +1,14 @@
-# `v-model` のテスト {#testing-v-model}
+# Testing `v-model`
 
-`v-model` の相互作用（`update:modelValue` イベント）に依存するコンポーネントを記述する場合、`event` と `props` を処理する必要があります。
+When writing components that rely on `v-model` interaction (`update:modelValue` event), you need to handle the `event` and `props`.
 
-["vmodel integration" ディスカッション](https://github.com/vuejs/test-utils/discussions/279) で、コミュニティによる解決策を確認してください。
+Check ["vmodel integration" Discussion](https://github.com/vuejs/test-utils/discussions/279) for some community solutions.
 
-[VueJS の VModelイベントのドキュメント](https://vuejs.org/guide/components/events.html#usage-with-v-model) を確認してください。
+Check [VueJS VModel event documentation](https://vuejs.org/guide/components/events.html#usage-with-v-model).
 
-## 簡単な例 {#a-simple-example}
+## A Simple Example
 
-ここでは、シンプルなEditorコンポーネントを紹介します:
+Here a simple Editor component:
 
 ```js
 const Editor = {
@@ -24,7 +24,7 @@ const Editor = {
 }
 ```
 
-このコンポーネントは、単に input コンポーネントとして動作します:
+This component will just behave as an input component:
 
 ```js
 const App {
@@ -40,9 +40,9 @@ const App {
 }
 ```
 
-これで、input にタイプすると、コンポーネント上の `text` が更新されます。
+Now when we type on the input, it will update `text` on our component.
 
-この動作をテストするために:
+To test this behavior:
 
 ```js
 test('modelValue should be updated', async () => {
@@ -58,11 +58,11 @@ test('modelValue should be updated', async () => {
 })
 ```
 
-## 複数の `v-model` {#multiple-v-model}
+# Multiple `v-model`
 
-状況によっては、特定のプロパティをターゲットとする複数の `v-model` を持つことができます。
+In some situations we can have multiple `v-model` targeting specific properties.
 
-Money Editor の例では、`currency` と `modelValueの` プロパティを持つことができます。
+Example an Money Editor, we can have `currency` and `modelValue` properties.
 
 ```js
 const MoneyEditor = {
@@ -75,7 +75,7 @@ const MoneyEditor = {
 }
 ```
 
-両方をテストすることができます:
+We can test both by:
 
 ```js
 test('modelValue and currency should be updated', async () => {

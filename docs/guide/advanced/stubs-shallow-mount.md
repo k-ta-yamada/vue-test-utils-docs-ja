@@ -1,12 +1,12 @@
 # Stubs and Shallow Mount
 
-Vue Test Utils provides some advanced features for _stubbing_ components and directives. A _stub_ is where you replace an existing implementation of a custom component or directive with a dummy one that doesn't do anything at all, which can simplify an otherwise complex test. Let's see an example.
+Vue Test Utils は、コンポーネントやディレクティブをスタブ化するための高度な機能を提供します。_スタブ_ は、カスタムコンポーネントやディレクティブの既存の実装を、全く何もしないダミーのものに置き換えることで、複雑なテストを簡素化することができます。例を見てみましょう。
 
-## Stubbing a single child component
+## 単一の子コンポーネントのスタブ化 {#stubbing-a-single-child-component}
 
-A common example is when you would like to test something in a component that appears very high in the component hierarchy.
+よくある例としては、コンポーネント階層の非常に高い位置にあるコンポーネントで何かをテストしたい場合です。
 
-In this example, we have an `<App>` that renders a message, as well as a `FetchDataFromApi` component that makes an API call and renders its result.
+この例では、メッセージを表示する `<App>` と、API を呼び出してその結果を表示する `FetchDataFromApi` コンポーネントを用意しています。
 
 ```js
 const FetchDataFromApi = {
@@ -36,7 +36,7 @@ const App = {
 }
 ```
 
-We do not want to make the API call in this particular test, we just want to assert the message is rendered. In this case, we could use the `stubs`, which appears in the `global` mounting option.
+このテストでは API 呼び出しを行わず、メッセージがレンダリングされたことを確認したいだけです。この場合、`global` マウントオプションに表示される `stubs` を使用することができます。
 
 ```js
 test('stubs component with custom template', () => {
@@ -57,9 +57,9 @@ test('stubs component with custom template', () => {
 })
 ```
 
-Notice that the template is showing `<span></span>` where `<fetch-data-from-api />` was? We replaced it with a stub - in this case, we provided our own implementation by passing in a `template`.
+テンプレートが `<fetch-data-from-api />` があった場所に `<span></span>` を表示していることに注意してください。これをスタブに置き換えたのです。この場合、`template` を渡すことで独自の実装を提供しました。
 
-You can also get a default stub, instead of providing your own:
+また、自分でスタブを用意するのではなく、デフォルトのスタブを取得することも可能です。
 
 ```js
 test('stubs component', () => {
@@ -81,15 +81,15 @@ test('stubs component', () => {
 })
 ```
 
-This will stub out _all_ the `<FetchDataFromApi />` components in the entire render tree, regardless of what level they appear at. That's why it is in the `global` mounting option.
+これにより、レンダーツリー全体のすべての `<FetchDataFromApi />` コンポーネントが、どのレベルに表示されるかに関係なく、スタブ出力されます。そのため、`global` マウントオプションにあるのです。
 
 ::: tip
-To stub out you can either use the key in `components` or the name of your component. If both are given in `global.stubs` the key will be used first.
+スタブアウトするには、`components` のキーを使うか、コンポーネントの名前を使うかのどちらかです。`global.stubs` で両方が指定された場合は、キーが先に使用されます。
 :::
 
-## Stubbing all children components
+## すべての子コンポーネントをスタブする {#stubbing-all-children-components}
 
-Sometimes you might want to stub out _all_ the custom components. For example you might have a component like this:
+時には、_すべて_ のカスタムコンポーネントをスタブアウトしたい場合があります。例えば、以下のようなコンポーネントがあるとします:
 
 ```js
 const ComplexComponent = {
@@ -103,7 +103,7 @@ const ComplexComponent = {
 }
 ```
 
-Imagine each of the `<Complex>` does something complicated, and you are only interested in testing that the `<h1>` is rendering the correct greeting. You could do something like:
+各 `<Complex>` が何か複雑なことをしていて、`<h1>` が正しい挨拶をレンダリングしているかどうかだけをテストすることに興味があると想像してください。次のようなことができます:
 
 ```js
 const wrapper = mount(ComplexComponent, {
@@ -117,7 +117,7 @@ const wrapper = mount(ComplexComponent, {
 })
 ```
 
-But that's a lot of boilerplate. VTU has a `shallow` mounting option that will automatically stub out all the child components:
+しかし、これでは定型文が多くなってしまいます。VTU には `shallow` マウントオプションがあり、自動的に子コンポーネントをすべてスタブアウトしてくれます:
 
 ```js {3}
 test('shallow stubs out all child components', () => {
@@ -136,12 +136,12 @@ test('shallow stubs out all child components', () => {
 ```
 
 ::: tip
-If you used VTU V1, you may remember this as `shallowMount`. That method is still available, too - it's the same as writing `shallow: true`.
+VTU V1 を使っていた人は、これを `shallowMount` と覚えているかもしれません。その方法もまだ利用できます。`shallow: true` と書くのと同じです。
 :::
 
-## Stubbing all children components with exceptions
+## 例外を含むすべての子コンポーネントをスタブする {#stubbing-all-children-components-with-exceptions}
 
-Sometimes you want to stub out _all_ the custom components, _except_ specific one. Let's consider an example:
+特定のコンポーネントを _除き_、_すべて_ のカスタムコンポーネントをスタブアウトしたい場合があります。その例を考えてみましょう:
 
 ```js
 const ComplexA = {
@@ -159,7 +159,7 @@ const ComplexComponent = {
 }
 ```
 
-By using `shallow` mounting option that will automatically stub out all the child components. If we want to explicitly opt-out of stubbing specific component, we could provide its name in `stubs` with value set to `false`
+`shallow` マウントオプションを使用すると、すべての子コンポーネントが自動的にスタブアウトされます。特定のコンポーネントのスタブを明示的に無効にしたい場合は、そのコンポーネントの名前を `stubs` で指定して `false` を設定します。
 
 ```js {3}
 test('shallow allows opt-out of stubbing specific component', () => {
@@ -180,9 +180,9 @@ test('shallow allows opt-out of stubbing specific component', () => {
 })
 ```
 
-## Stubbing an async component
+## 非同期コンポーネントのスタブ化 {#stubbing-an-async-component}
 
-In case you want to stub out an async component, then there are two behaviours. For example, you might have components like this:
+非同期コンポーネントをスタブアウトさせたい場合、2 つの動作があります。例えば、以下のようなコンポーネントがあるとします:
 
 ```js
 // AsyncComponent.js
@@ -200,8 +200,8 @@ const App = defineComponent({
 })
 ```
 
-The first behaviour is using the key defined in your component which loads the async component. In this example we used to key "MyComponent".
-It is not required to use `async/await` in the test case, because the component has been stubbed out before resolving.
+最初の動作は、非同期コンポーネントをロードするコンポーネントで定義されたキーを使用します。この例では、"MyComponent "というキーを使用しています。
+コンポーネントは解決する前にスタブ化されているので、テストケースで `async/await` を使用する必要はありません。
 
 ```js
 test('stubs async component without resolving', () => {
@@ -217,10 +217,10 @@ test('stubs async component without resolving', () => {
 })
 ```
 
-The second behaviour is using the name of the async component. In this example we used to name "AsyncComponent".
-Now it is required to use `async/await`, because the async component needs to be resolved and then can be stubbed out by the name defined in the async component.
+2 番目の動作は、非同期コンポーネントの名前を使用することです。 この例では、"AsyncComponent" という名前を使用しています。
+非同期コンポーネントを解決する必要があり、非同期コンポーネントで定義された名前でスタブ化できるため、`async/await` を使用する必要があります。
 
-**Make sure you define a name in your async component!**
+**非同期コンポーネントで名前を定義していることを確認してください!**
 
 ```js
 test('stubs async component with resolving', async () => {
@@ -238,11 +238,11 @@ test('stubs async component with resolving', async () => {
 })
 ```
 
-## Stubbing a directive
+## ディレクティブをスタブする {#stubbing-a-directive}
 
-Sometimes directives do quite complex things, like perform a lot of DOM manipulation which might result in errors in your tests (due to JSDOM not resembling entire DOM behavior). A common example is tooltip directives from various libraries, which usually rely heavily on measuring DOM nodes position/sizes.
+時には、ディレクティブは非常に複雑なことをすることがあります。例えば、多くの DOM 操作を行い、テストでは（JSDOM が DOM 全体の挙動に似ていないために）エラーになる可能性があります。一般的な例としては、様々なライブラリのツールチップディレクティブがあり、これらは通常、DOM ノードの位置やサイズの測定に大きく依存しています。
 
-In this example, we have another `<App>` that renders a message with tooltip
+この例では、ツールチップ付きのメッセージを表示する別の `<App>` を用意しています。
 
 ```js
 // tooltip directive declared somewhere, named `Tooltip`
@@ -255,7 +255,7 @@ const App = {
 }
 ```
 
-We do not want the `Tooltip` directive code to be executed in this test, we just want to assert the message is rendered. In this case, we could use the `stubs`, which appears in the `global` mounting option passing `vTooltip`.
+このテストでは、`Tooltip` ディレクティブのコードを実行させたくないので、メッセージがレンダリングされることを保証したいだけです。この場合、`vTooltip` を渡す `global` マウントオプションに表示される `stubs` を使用することができます。
 
 ```js
 test('stubs component with custom template', () => {
@@ -275,10 +275,10 @@ test('stubs component with custom template', () => {
 ```
 
 ::: tip
-Usage of `vCustomDirective` naming scheme to differentiate between components and directives is inspired by [same approach](https://vuejs.org/api/sfc-script-setup.html#using-custom-directives) used in `<script setup>`
+コンポーネントとディレクティブを区別するための `vCustomDirective` 命名スキームの使用は、`<script setup>` で使用されているのと [同じアプローチ](https://vuejs.org/api/sfc-script-setup.html#using-custom-directives) に触発されたものです。
 :::
 
-Sometimes, we need a part of directive functionality (usually because some code relies on it). Let's assume our directive adds `with-tooltip` CSS class when executed and this is important behavior for our code. In this case we can swap `true` with our mock directive implementation
+時々、ディレクティブの機能の一部が必要になることがあります（通常は、いくつかのコードがそれに依存しているため）。例えば、ディレクティブが実行されたときに `with-tooltip` CSS クラスを追加し、それが私たちのコードにとって重要な動作であるとしましょう。この場合、モックディレクティブの実装で `true` を交換することができます。
 
 ```js
 test('stubs component with custom template', () => {
@@ -304,15 +304,15 @@ test('stubs component with custom template', () => {
 })
 ```
 
-We've just swapped our directive implementation with our own one!
+ディレクティブの実装を自分たちのものと入れ替えただけです!
 
 ::: warning
-Stubbing directives won't work on functional components or `<script setup>` due to lack of directive name inside of [withDirectives](https://vuejs.org/api/render-function.html#withdirectives) function. Consider mocking directive module via your testing framework if you need to mock directive used in functional component. See https://github.com/vuejs/core/issues/6887 for proposal to unlock such functionality
+スタブディレクティブは、[withDirectives](https://ja.vuejs.org/api/render-function.html#withdirectives) 関数内にディレクティブ名がないため、 機能コンポーネントや `<script setup>` では動作しません。機能的なコンポーネントで使用されるディレクティブをモックする必要がある場合は、 テストフレームワークでディレクティブモジュールをモックすることを検討してください。このような機能を解除するための提案については、 https://github.com/vuejs/core/issues/6887 を参照してください。
 :::
 
-## Default Slots and `shallow`
+## デフォルトスロットと `shallow` {#default-slots-and-shallow}
 
-Since `shallow` stubs out all the content of a components, any `<slot>` won't get rendered when using `shallow`. While this is not a problem in most cases, there are some scenarios where this isn't ideal.
+`shallow` はコンポーネントのすべての内容をスタブ化するので、`shallow` を使用すると `<slot>` はすべてレンダリングされません。ほとんどの場合、これは問題ではありませんが、これが理想的でないシナリオもあります。
 
 ```js
 const CustomButton = {
@@ -324,7 +324,7 @@ const CustomButton = {
 }
 ```
 
-And you might use it like this:
+そして、こんな風に使うかもしれません:
 
 ```js
 const App = {
@@ -339,9 +339,9 @@ const App = {
 }
 ```
 
-If you are using `shallow`, the slot will not be rendered, since the render function in `<custom-button />` is stubbed out. That means you won't be able to verify the correct text is rendered!
+`shallow` を使用している場合、`<custom-button />` の render 関数がスタブ化されるため、スロットはレンダリングされません。つまり、正しいテキストがレンダリングされたかどうかを確認することができないのです!
 
-For this use case, you can use `config.renderStubDefaultSlot`, which will render the default slot content, even when using `shallow`:
+この使用例では、`shallow` を使用している場合でも、デフォルトのスロットコンテンツをレンダリングする `config.renderStubDefaultSlot` を使用することができます。
 
 ```js {1,4,8}
 import { config, mount } from '@vue/test-utils'
@@ -366,26 +366,26 @@ test('shallow with stubs', () => {
 })
 ```
 
-Since this behavior is global, not on a `mount` by `mount` basis, you need to remember to enable/disable it before and after each test.
+この動作は `mount` 毎ではなくグローバルに行われるため、各テストの前後に有効/無効にすることを覚えておく必要があります。
 
 ::: tip
-You can also enable this globally by importing `config` in your test setup file, and setting `renderStubDefaultSlot` to `true`. Unfortunately, due to technical limitations, this behavior is not extended to slots other than the default slot.
+また、テストのセットアップファイルで `config` をインポートし、 `renderStubDefaultSlot` を `true` に設定することで、グローバルに有効にすることができます。残念ながら、技術的な制限により、この動作はデフォルトスロット以外のスロットには拡張されません。
 :::
 
-## `mount`, `shallow` and `stubs`: which one and when?
+## `mount`、`shallow`、`stubs`: いつ、どれを使う? {#mount-shallow-and-stubs-which-one-and-when}
 
-As a rule of thumb, **the more your tests resemble the way your software is used**, the more confidence they can give you.
+経験則では、**テストがソフトウェアの使用方法に似ていればいるほど**、より高い信頼性を得ることができます。
 
-Tests that use `mount` will render the entire component hierarchy, which is closer to what the user will experience in a real browser.
+`mount` を使用するテストでは、コンポーネント階層全体をレンダリングするため、実際のブラウザでユーザーが体験するものに近くなります。
 
-On the other hand, tests using `shallow` are focused on a specific component. `shallow` can be useful for testing advanced components in complete isolation. If you just have one or two components that are not relevant to your tests, consider using `mount` in combination with `stubs` instead of `shallow`. The more you stub, the less production-like your test becomes.
+一方、`shallow` を使用したテストは特定のコンポーネントに焦点を当てたものになります。 `shallow` は、高度なコンポーネントを完全に分離してテストするのに便利です。テストに関係のないコンポーネントがひとつかふたつあるだけなら、`shallow` ではなく `stubs` と組み合わせて `mount` を使うことを考えましょう。スタブを増やせば増やすほど、テストがプロダクションライクでなくなります。
 
-Keep in mind that whether you are doing a full mount or a shallow render, good tests focus on inputs (`props` and user interaction, such as with `trigger`) and outputs (the DOM elements that are rendered, and events), not implementation details.
+フルマウントでもシャローレンダリングでも、良いテストは実装の詳細ではなく、入力（`props` や `trigger` などのユーザーインタラクション）と出力（レンダリングされる DOM 要素やイベント）に焦点を当てることを心に留めておいてください。
 
-So regardless of which mounting method you choose, we suggest keeping these guidelines in mind.
+そのため、どのような実装方法を選択する場合でも、以下のガイドラインを念頭に置くことをお勧めします。
 
-## Conclusion
+## 結論 {#conclusion}
 
-- use `global.stubs` to replace a component or directive with a dummy one to simplify your tests
-- use `shallow: true` (or `shallowMount`) to stub out all child components
-- use `global.renderStubDefaultSlot` to render the default `<slot>` for a stubbed component
+- `global.stubs` を使って、コンポーネントやディレクティブをダミーに置き換えることで、テストを簡略化することができます。
+- `shallow: true` （または `shallowMount`）を使用すると、すべての子コンポーネントをスタブ化することができます。
+- `global.renderStubDefaultSlot` を使用して、スタブされたコンポーネントのデフォルトの `<slot>` をレンダリングします

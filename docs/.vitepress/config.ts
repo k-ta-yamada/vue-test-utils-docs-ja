@@ -45,23 +45,23 @@ export default defineConfig({
         text: 'Essentials',
         collapsable: false,
         children: [
-          { text: 'Getting Started', link: '/guide/' },
-          { text: 'A Crash Course', link: '/guide/essentials/a-crash-course' },
+          { text: 'Getting Started 🇯🇵', link: '/guide/' },
+          { text: 'A Crash Course 🇯🇵', link: '/guide/essentials/a-crash-course' },
           {
-            text: 'Conditional Rendering',
+            text: 'Conditional Rendering 🇯🇵',
             link: '/guide/essentials/conditional-rendering'
           },
           {
-            text: 'Testing Emitted Events',
+            text: 'Testing Emitted Events 🇯🇵',
             link: '/guide/essentials/event-handling'
           },
-          { text: 'Testing Forms', link: '/guide/essentials/forms' },
+          { text: 'Testing Forms 🇯🇵', link: '/guide/essentials/forms' },
           {
-            text: 'Passing Data to Components',
+            text: 'Passing Data to Components 🇯🇵',
             link: '/guide/essentials/passing-data'
           },
           {
-            text: 'Write components that are easy to test',
+            text: 'Write components that are easy to test 🇯🇵',
             link: '/guide/essentials/easy-to-test'
           }
         ]
@@ -70,30 +70,30 @@ export default defineConfig({
         text: 'Vue Test Utils in depth',
         collapsable: false,
         children: [
-          { text: 'Slots', link: '/guide/advanced/slots' },
+          { text: 'Slots 🇯🇵', link: '/guide/advanced/slots' },
           {
-            text: 'Asynchronous Behavior',
+            text: 'Asynchronous Behavior 🇯🇵',
             link: '/guide/advanced/async-suspense'
           },
           {
-            text: 'Making HTTP Requests',
+            text: 'Making HTTP Requests 🇯🇵',
             link: '/guide/advanced/http-requests'
           },
-          { text: 'Transitions', link: '/guide/advanced/transitions' },
+          { text: 'Transitions 🇯🇵', link: '/guide/advanced/transitions' },
           {
-            text: 'Component Instance',
+            text: 'Component Instance 🇯🇵',
             link: '/guide/advanced/component-instance'
           },
           {
-            text: 'Reusability and Composition',
+            text: 'Reusability and Composition 🇯🇵',
             link: '/guide/advanced/reusability-composition'
           },
-          { text: 'Testing v-model', link: '/guide/advanced/v-model' },
-          { text: 'Testing Vuex', link: '/guide/advanced/vuex' },
-          { text: 'Testing Vue Router', link: '/guide/advanced/vue-router' },
-          { text: 'Testing Teleport', link: '/guide/advanced/teleport' },
+          { text: 'Testing v-model 🇯🇵', link: '/guide/advanced/v-model' },
+          { text: 'Testing Vuex 🇯🇵', link: '/guide/advanced/vuex' },
+          { text: 'Testing Vue Router 🇯🇵', link: '/guide/advanced/vue-router' },
+          { text: 'Testing Teleport 🇯🇵', link: '/guide/advanced/teleport' },
           {
-            text: 'Stubs and Shallow Mount',
+            text: 'Stubs and Shallow Mount 🇯🇵',
             link: '/guide/advanced/stubs-shallow-mount'
           }
         ]

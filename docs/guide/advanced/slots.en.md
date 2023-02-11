@@ -1,10 +1,10 @@
 # Slots
 
-Vue Test Utils は、`slots` を使ったコンポーネントのテストに便利な機能をいくつか提供しています。
+Vue Test Utils provides some useful features for testing components using `slots`.
 
 ## A Simple Example
 
-一般的な `<layout>` コンポーネントがあり、デフォルトのスロットを使用してコンテンツをレンダリングする場合があります。例えば:
+You might have a generic `<layout>` component that uses a default slot to render some content. For example:
 
 ```js
 const Layout = {
@@ -22,7 +22,7 @@ const Layout = {
 }
 ```
 
-デフォルトのスロットコンテンツがレンダリングされることを確認するためのテストを書きたいと思うかもしれません。VTU はこの目的のために、`slots` のマウントオプションを提供しています:
+You might want to write a test to ensure the default slot content is rendered. VTU provides the `slots` mounting option for this purpose:
 
 ```js
 test('layout default slot', () => {
@@ -36,7 +36,7 @@ test('layout default slot', () => {
 })
 ```
 
-合格です! この例では、デフォルトスロットにテキストコンテンツを渡しています。もっと具体的に、デフォルトスロットのコンテンツが `<main>` の内部でレンダリングされることを確認したい場合は、 アサーションを変更します。
+It passes! In this example, we are passing some text content to the default slot. If you want to be even more specific, and verify the default slot content is rendered inside `<main>`, you could change the assertion:
 
 ```js
 test('layout default slot', () => {
@@ -52,7 +52,7 @@ test('layout default slot', () => {
 
 ## Named Slots
 
-より複雑な `<layout>` コンポーネントで、いくつかの名前付きスロットを使用することができます。例えば:
+You may have more complex `<layout>` component with some named slots. For example:
 
 ```js
 const Layout = {
@@ -73,7 +73,7 @@ const Layout = {
 }
 ```
 
-VTU も対応しています。以下のようにテストを書くことができます。この例では、スロットにテキストコンテンツではなく、HTML を渡していることに注意してください。
+VTU also supports this. You can write a test as follows. Note that in this example we are passing HTML instead of text content to the slots.
 
 ```js
 test('layout full page layout', () => {
@@ -93,7 +93,7 @@ test('layout full page layout', () => {
 
 ## Multiple Slots
 
-スロットの配列も渡すことができます:
+You can pass an array of slots, too:
 
 ```js
 test('layout full page layout', () => {
@@ -113,7 +113,7 @@ test('layout full page layout', () => {
 
 ## Advanced Usage
 
-また、レンダー関数、テンプレート付きオブジェクト、あるいは `vue` ファイルからインポートした SFC をスロット取り付けオプションに渡すことができます。
+You can also pass a render function, an object with template or even an SFC imported from a `vue` file to a slot mounting option:
 
 ```js
 import { h } from 'vue'
@@ -135,11 +135,11 @@ test('layout full page layout', () => {
 })
 ```
 
-その他の例や使用例については、[テストを参照](https://github.com/vuejs/test-utils/blob/9d3c2a6526f3d8751d29b2f9112ad2a3332bbf52/tests/mountingOptions/slots.spec.ts#L124-L167) してください。
+[Refer to the tests](https://github.com/vuejs/test-utils/blob/9d3c2a6526f3d8751d29b2f9112ad2a3332bbf52/tests/mountingOptions/slots.spec.ts#L124-L167) for more examples and use cases.
 
 ## Scoped Slots
 
-[スコープ付きスロット](https://v3.vuejs.org/guide/component-slots.html#scoped-slots) とバインディングもサポートされています。
+[Scoped slots](https://v3.vuejs.org/guide/component-slots.html#scoped-slots) and bindings are also supported. 
 
 ```js
 const ComponentWithSlots = {
@@ -169,7 +169,7 @@ test('scoped slots', () => {
 })
 ```
 
-スロットの内容に文字列テンプレートを使用する場合、**`<template #scoped="scopeVar">` タグを使用して明示的に定義されていなければ**、スロットが評価されたときにスロットスコープは `params` オブジェクトとして利用可能になります。
+When using string templates for slot content, **if not explicitly defined using a wrapping `<template #scoped="scopeVar">` tag**, slot scope becomes available as a `params` object when the slot is evaluated.
 
 ```js
 test('scoped slots', () => {
@@ -183,9 +183,9 @@ test('scoped slots', () => {
 })
 ```
 
-## 結論 {#conclusion}
+## Conclusion
 
-- `slots` マウントオプションを使用して、`<slot>` を使用するコンポーネントがコンテンツを正しくレンダリングしているかどうかをテストします。
-- コンテンツには、文字列、レンダー関数、インポートされた SFC のいずれかを指定できます。
-- デフォルトのスロットは `default`、名前付きスロットは正しい名前を使います。
-- scopedスロットと `#` の省略形もサポートされています。
+- Use the `slots` mounting option to test components using `<slot>` are rendering content correctly.
+- Content can either be a string, a render function or an imported SFC.
+- Use `default` for the default slot, and the correct name for a named slots.
+- scoped slots and the `#` shorthand is also supported.

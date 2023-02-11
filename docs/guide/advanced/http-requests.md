@@ -1,14 +1,14 @@
-# Making HTTP requests
+# HTTPリクエストの作成 {#making-http-requests}
 
-Modern test runners already provide lots of great features when it comes to test HTTP requests. Thus, Vue Test Utils doesn't feature any unique tool to do so.
+最近のテストランナーは、HTTP リクエストのテストに関して、すでに多くの素晴らしい機能を提供しています。したがって、Vue Test Utils は、そのためのユニークなツールを備えていません。
 
-However, it is an important feature to test, and there are a few gotchas we want to highlight.
+しかし、テストする上で重要な機能であり、強調したいいくつかの落とし穴があります。
 
-In this section, we explore some patterns to perform, mock, and assert HTTP requests.
+このセクションでは、HTTP リクエストの実行、モック、およびアサートのためのいくつかのパターンを探ります。
 
-## A list of blog posts
+## ブログの記事一覧 {#a-list-of-blog-posts}
 
-Let's start with a basic use case. The following `PostList` component renders a list of blog posts fetched from an external API. To get these posts, the component features a `button` element that triggers the request:
+まず、基本的な使用例から見ていきましょう。次の `PostList` コンポーネントは、外部 API から取得したブログ投稿のリストをレンダリングします。これらの記事を取得するために、このコンポーネントはリクエストをトリガーする `button` 要素を備えています:
 
 ```vue
 <template>
@@ -38,13 +38,13 @@ export default {
 </script>
 ```
 
-There are several things we need to do to test this component properly.
+このコンポーネントを正しくテストするために必要なことがいくつかあります。
 
-Our first goal is to test this component **without actually reaching the API**. This would create a fragile and potentially slow test.
+私たちの最初の目標は、**実際に API に到達することなく**、このコンポーネントをテストすることです。そうすると、壊れやすく、遅い可能性のあるテストが作成されます。
 
-Secondly, we need to assert that the component made the right call with the appropriate parameters. We won't be getting results from that API, but we still need to ensure we requested the right resources.
+次に、コンポーネントが適切なパラメータで正しい呼び出しを行ったことを保証する必要があります。私たちはその API から結果を得ることはありませんが、それでも私たちが正しいリソースを要求したことを確認する必要があります。
 
-Also, we need to make sure that the DOM has updated accordingly and displays the data. We do so by using the `flushPromises()` function from `@vue/test-utils`.
+また、DOM がそれに応じて更新され、データが表示されていることを確認する必要があります。これは `@vue/test-utils` の `flushPromises()` 関数で行います。
 
 ```js
 import { mount, flushPromises } from '@vue/test-utils'
@@ -82,19 +82,19 @@ test('loads posts on button click', async () => {
 })
 ```
 
-Pay attention that we added prefix `mock` to the variable `mockPostList`. If not, we will get the error: "The module factory of jest.mock() is not allowed to reference any out-of-scope variables.". This is jest-specific, and you can read more about this behavior [in their docs](https://jestjs.io/docs/es6-class-mocks#calling-jestmock-with-the-module-factory-parameter).
+変数 `mockPostList` に接頭辞 `mock` を付けていることに注意してください。そうでないと、"The module factory of jest.mock() is not allowed to reference any out-of-scope variables." というエラーが発生します。これは jest 固有のもので、この動作については jest の [ドキュメント](https://jestjs.io/docs/es6-class-mocks#calling-jestmock-with-the-module-factory-parameter) を参照してください。
 
-Also notice how we awaited `flushPromises` and then interacted with the Component. We do so to ensure that the DOM has been updated before the assertions run.
+また、`flushPromises` を待ってから Component と対話したことにも注目してください。これは、アサーションが実行される前に DOM が更新されたことを確認するためです。
 
 :::tip Alternatives to jest.mock()
-There are several ways of setting mocks in Jest. The one used in the example above is the simplest. For more powerful alternatives, you might want to check out [axios-mock-adapter](https://github.com/ctimmerm/axios-mock-adapter) or [msw](https://github.com/mswjs/msw), among others.
+Jest でモックを設定するには、いくつかの方法があります。上の例で使っているのは最もシンプルなものです。より強力な代用品として、[axios-mock-adapter](https://github.com/ctimmerm/axios-mock-adapter) や [msw](https://github.com/mswjs/msw) などをチェックしてみてください。
 :::
 
-### Asserting loading state
+### ローディング状態のアサーション {#asserting-loading-state}
 
-Now, this `PostList` component is pretty useful, but it lacks some other awesome features. Let's expand it to make it display a fancy message while loading our posts!
+さて、この `PostList` コンポーネントはかなり便利なのですが、他の素晴らしい機能が欠けています。これを拡張して、投稿を読み込むときに派手なメッセージを表示するようにしてみましょう!
 
-Also, let's disable the `<button>` element while loading, too. We don't want users to keep sending requests while fetching!
+また、ローディング中は `<button>` 要素も無効にしておきましょう。フェッチ中にユーザーがリクエストを送り続けるようなことは避けたいのです!
 
 ```vue {2,4,19,24,28}
 <template>
@@ -131,44 +131,44 @@ export default {
 </script>
 ```
 
-Let's write a test to assert that all the loading-related elements are rendered on time.
+ローディングに関連するすべての要素が時間通りにレンダリングされることを保証するためのテストを書いてみましょう。
 
 ```js
 test('displays loading state on button click', async () => {
   const wrapper = mount(PostList)
 
-  // Notice that we run the following assertions before clicking on the button
-  // Here, the component should be in a "not loading" state.
+  // ボタンをクリックする前に、以下のアサーションを実行していることに注意してください。
+  // ここでは、コンポーネントは "not loading" の状態でなければなりません。
   expect(wrapper.find('[role="alert"]').exists()).toBe(false)
   expect(wrapper.get('button').attributes()).not.toHaveProperty('disabled')
 
-  // Now let's trigger it as usual.
+  // では、いつものようにトリガーしてみましょう。
   await wrapper.get('button').trigger('click')
 
-  // We assert for "Loading state" before flushing all promises.
+  // すべての Promise をフラッシュする前に、「ローディング状態」をアサートします。
   expect(wrapper.find('[role="alert"]').exists()).toBe(true)
   expect(wrapper.get('button').attributes()).toHaveProperty('disabled')
 
-  // As we did before, wait until the DOM updates.
+  // 前と同じように、DOM が更新されるまで待ちます。
   await flushPromises()
 
-  // After that, we're back at a "not loading" state.
+  // その後、"not loading" の状態に戻ります。
   expect(wrapper.find('[role="alert"]').exists()).toBe(false)
   expect(wrapper.get('button').attributes()).not.toHaveProperty('disabled')
 })
 ```
 
-## HTTP requests from Vuex
+## Vuex からの HTTP リクエスト {#http-requests-from-vuex}
 
-A typical scenario for more complex applications is to trigger a Vuex action that performs the HTTP request.
+より複雑なアプリケーションの典型的なシナリオは、HTTP リクエストを実行する Vuex アクションをトリガーすることです。
 
-This is no different from the example outlined above. We might want to load the store as is and mock services such as `axios`. This way, we're mocking our system's boundaries, thus achieving a higher degree of confidence in our tests.
+これは、上で説明した例と変わりません。ストアをそのままロードして、`axios` などのサービスをモックするのもよいでしょう。こうすることで、システムの境界をモックすることができ、より高い信頼性を得ることができます。
 
-You can check out the [Testing Vuex](vuex.md) docs for more information on testing Vuex with Vue Test Utils.
+Vue Test Utils を使った Vuexのテストの詳細については、[Testing Vuex](vuex.md) ドキュメントをご覧ください。
 
-## Conclusion
+## 結論 {#conclusion}
 
-- Vue Test Utils does not require special tools to test HTTP requests. The only thing to take into account is that we're testing asynchronous behavior.
-- Tests must not depend on external services. Use mocking tools such as `jest.mock` to avoid it.
-- `flushPromises()` is a useful tool to make sure the DOM updates after an async operation.
-- Directly triggering HTTP requests by interacting with the component makes your test more resilient.
+- Vue Test Utils は、HTTP リクエストをテストするために特別なツールを必要としません。考慮すべきは、非同期の動作をテストしていることくらいです。
+- テストは外部サービスに依存してはいけません。それを避けるために、`jest.mock` などのモッキングツールを使いましょう。
+- `flushPromises()` は、非同期操作の後に DOM が更新されることを確認するための便利なツールです。
+- コンポーネントと対話し、HTTP リクエストを直接トリガーすることで、テストはより弾力的になります。
