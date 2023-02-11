@@ -1,13 +1,13 @@
 # Form Handling
 
-Forms in Vue can be as simple as plain HTML forms to complicated nested trees of custom Vue component form elements.
-We will gradually go through the ways of interacting with form elements, setting values and triggering events.
+Vue のフォームは、プレーンな HTML フォームのような単純なものから、カスタム Vue コンポーネントのフォーム要素の複雑なネストツリーになるものまであります。
+ここでは、フォーム要素と対話し、値を設定し、イベントをトリガーする方法について、徐々に説明します。
 
-The methods we will be using the most are `setValue()` and `trigger()`.
+最も多く使用するメソッドは、`setValue()` と `trigger()` です。
 
-## Interacting with form elements
+## フォーム要素との連動 {#interacting-with-form-elements}
 
-Let's take a look at a very basic form:
+ごく基本的なフォームを見てみましょう:
 
 ```vue
 <template>
@@ -34,12 +34,12 @@ export default {
 </script>
 ```
 
-### Setting element values
+### 要素値の設定 {#setting-element-values}
 
-The most common way to bind an input to data in Vue is by using `v-model`. As you probably know by now, it takes care of what events each form element emits,
-and the props it accepts, making it easy for us to work with form elements.
+Vue で入力をデータにバインドする最も一般的な方法は、`v-model` を使用することです。もうご存知かと思いますが、各フォーム要素がどのようなイベントを emit するか、
+そしてどのような props を受け付けるかを管理してくれるので、フォーム要素の扱いが簡単になります。
 
-To change the value of an input in VTU, you can use the `setValue()` method. It accepts a parameter, most often a `String` or a `Boolean`, and returns a `Promise`, which resolves after Vue has updated the DOM.
+VTU で入力の値を変更するには、`setValue()` メソッドを使用します。これはパラメータ（多くの場合 `String` または `Boolean`）を受け取り、`Promise` を返し、Vue が DOM を更新した後に解決されます。
 
 ```js
 test('sets the value', async () => {
@@ -52,19 +52,19 @@ test('sets the value', async () => {
 })
 ```
 
-As you can see, `setValue` sets the `value` property on the input element to what we pass to it.
+ご覧のように、`setValue` は input 要素の `value` プロパティを渡した値に設定します。
 
-We are using `await` to make sure that Vue has completed updating and the change has been reflected in the DOM, before we make any assertions.
+`await` を使って、Vue の更新が完了し、DOM に変更が反映されたことを確認してから、アサーションを行っています。
 
-### Triggering events
+### イベントのトリガー {#triggering-events}
 
-Triggering events is the second most important action when working with forms and action elements. Let's take a look at our `button`, from the previous example.
+イベントのトリガーは、フォームやアクションエレメントを扱う上で、2 番目に重要な動作です。前の例で作った `button` を見てみましょう。
 
 ```html
 <button @click="submit">Submit</button>
 ```
 
-To trigger a click event, we can use the `trigger` method.
+クリックイベントを発生させるには、`trigger` メソッドを使用します。
 
 ```js
 test('trigger', async () => {
@@ -78,13 +78,13 @@ test('trigger', async () => {
 })
 ```
 
-> If you haven't seen `emitted()` before, don't worry. It's used to assert the emitted events of a Component. You can learn more in [Event Handling](./event-handling).
+> `emitted()` を見たことがなくても、心配は要りません。これは、Component の emitted イベントをアサートするために使用されます。詳しくは [Event Handling](./event-handling) で説明します。
 
-We trigger the `click` event listener, so that the Component executes the `submit` method. As we did with `setValue`, we use `await` to make sure the action is being reflected by Vue.
+`click` イベントリスナーをトリガーして、Component が `submit` メソッドを実行するようにします。`setValue` で行ったように、`await` を使用してアクションが Vue に反映されていることを確認します。
 
-We can then assert that some action has happened. In this case, that we emitted the right event.
+そして、何らかのアクションが起こったことをアサートすることができます。この場合、私たちは正しいイベントを emit したということです。
 
-Let's combine these two to test whether our simple form is emitting the user inputs.
+この 2 つを組み合わせて、シンプルなフォームがユーザーの入力を emit しているかどうかをテストしてみましょう。
 
 ```js
 test('emits the input to its parent', async () => {
@@ -103,13 +103,13 @@ test('emits the input to its parent', async () => {
 
 ## Advanced workflows
 
-Now that we know the basics, let's dive into more complex examples.
+さて、基本がわかったところで、より複雑な例題に飛び込んでみましょう。
 
-### Working with various form elements
+### さまざまなフォーム要素を扱う {#working-with-various-form-elements}
 
-We saw `setValue` works with input elements, but is much more versatile, as it can set the value on various types of input elements.
+`setValue` は input 要素で動作することを確認しましたが、様々なタイプの input 要素に値を設定できるため、より汎用的です。
 
-Let's take a look at a more complicated form, which has more types of inputs.
+ここでは、入力の種類が多い、より複雑なフォームを見てみましょう。
 
 ```vue
 <template>
@@ -154,9 +154,9 @@ export default {
 </script>
 ```
 
-Our extended Vue component is a bit longer, has a few more input types and now has the `submit` handler moved to a `<form/>` element.
+拡張された Vue コンポーネントは少し長くなり、入力タイプがいくつか増え、`submit` ハンドラは `<form/>` 要素に移動されました。
 
-The same way we set the value on the `input`, we can set it on all the other inputs in the form.
+`input` に値を設定したのと同じ方法で、フォーム内の他のすべての入力に値を設定することができます。
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -173,23 +173,23 @@ test('submits a form', async () => {
 })
 ```
 
-As you can see, `setValue` is a very versatile method. It can work with all types of form elements.
+ご覧の通り、`setValue` は非常に汎用性の高いメソッドです。あらゆるタイプのフォーム要素で動作させることができます。
 
-We are using `await` everywhere, to make sure that each change has been applied before we trigger the next. This is recommended to make sure you do assertions when the DOM has updated.
+`await` を随所で使用しているのは、各変更が適用されたことを確認してから次の変更をトリガーするためです。これは、DOM が更新されたときにアサーションを行うことを確認するために推奨されます。
 
 ::: tip
-If you don't pass a parameter to `setValue` for `OPTION`, `CHECKBOX` or `RADIO` inputs, they will set as `checked`.
+`OPTION`、`CHECKBOX`、`RADIO` の入力に対して `setValue` にパラメータを渡さない場合、それらは `checked` として設定されます。
 :::
 
-We have set values in our form, now it's time to submit the form and do some assertions.
+フォームに値を設定したので、次はフォームを送信してアサーションを行う番です。
 
-### Triggering complex event listeners
+### 複雑なイベントリスナーのトリガー {#triggering-complex-event-listeners}
 
-Event listeners are not always simple `click` events. Vue allows you to listen to all kinds of DOM events, add special modifiers like `.prevent` and more. Let's take a look how we can test those.
+イベントリスナーは、必ずしも単純な `click` イベントとは限りません。Vue では、あらゆる種類の DOM イベントをリスニングしたり、`.prevent` などの特別な修飾子を追加したりすることができます。それでは、それらをどのようにテストするか見てみましょう。
 
-In our form above, we moved the event from the `button` to the `form` element. This is a good practice to follow, as this allows you to submit a form by hitting the `enter` key, which is a more native approach.
+上のフォームでは、イベントを `button` から `form` 要素に移動しました。これにより、`enter` キーを押すことでフォームを送信できるようになり、よりネイティブなアプローチとなります。
 
-To trigger the `submit` handler, we use the `trigger` method again.
+`submit` ハンドラを起動するために、再び `trigger` メソッドを使用します。
 
 ```js {14,16-22}
 test('submits the form', async () => {
@@ -217,27 +217,27 @@ test('submits the form', async () => {
 })
 ```
 
-To test the event modifier, we directly copy-pasted our event string `submit.prevent` into `trigger`. `trigger` can read the passed event and all its modifiers, and selectively apply what is necessary.
+イベント修飾子をテストするために、イベント文字列 `submit.prevent` を直接 `trigger` にコピーペーストしました。 `trigger` は渡されたイベントとそのすべての修飾子を読み、必要なものを選択的に適用することができます。
 
 ::: tip
-Native event modifiers such as `.prevent` and `.stop` are Vue-specific and as such we don't need to test them, Vue internals do that already.
+`.prevent` や `.stop` などのネイティブイベント修飾子は Vue 固有のものであり、そのため、私たちはそれらをテストする必要はありません。
 :::
 
-We then make a simple assertion, whether the form emitted the correct event and payload.
+そして、フォームが正しいイベントとペイロードを emit したかどうか、簡単なアサーションを行います。
 
-#### Native form submission
+#### ネイティブフォームの送信 {#native-form-submission}
 
-Triggering a `submit` event on a `<form>` element mimics browser behavior during form submission. If we wanted to trigger form submission more naturally, we could trigger a `click` event on the submit button instead. Since form elements not connected to the `document` cannot be submitted, as per the [HTML specification](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#form-submission-algorithm), we need to use [`attachTo`](../../api/#attachto) to connect the wrapper's element.
+`<form>` 要素で `submit` イベントを発生させることは、フォーム送信時のブラウザの動作を模倣することになります。もっと自然にフォーム送信のきっかけを作りたいのであれば、代わりに送信ボタンの `click` イベントをトリガーすればよいでしょう。[HTML の仕様](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#form-submission-algorithm) として、`document` に接続されていないフォーム要素は、送信できないので、 ラッパーの要素を接続するために、[`attachTo`](../../api/#attachto) を使う必要があります。
 
-#### Multiple modifiers on the same event
+#### 同一イベントへの複数の修飾子 {#multiple-modifiers-on-the-same-event}
 
-Let's assume you have a very detailed and complex form, with special interaction handling. How can we go about testing that?
+非常に細かく複雑で、特殊なインタラクション処理を行うフォームがあるとします。それをテストするにはどうしたらいいでしょうか？
 
 ```html
 <input @keydown.meta.c.exact.prevent="captureCopy" v-model="input" />
 ```
 
-Assume we have an input that handles when the user clicks `cmd` + `c`, and we want to intercept and stop him from copying. Testing this is as easy as copy & pasting the event from the Component to the `trigger()` method.
+ユーザーが `cmd` + `c` をクリックしたときに処理する入力があり、それを阻止してコピーさせないようにしたいとします。このテストは、Component から `trigger()` メソッドにイベントをコピー＆ペーストすることで簡単に行うことができます。
 
 ```js
 test('handles complex events', async () => {
@@ -249,7 +249,7 @@ test('handles complex events', async () => {
 })
 ```
 
-Vue Test Utils reads the event and applies the appropriate properties to the event object. In this case it will match something like this:
+Vue Test Utils は、イベントを読み込んで、イベントオブジェクトに適切なプロパティを適用します。この場合、以下のようなマッチングになります:
 
 ```js
 {
@@ -259,9 +259,9 @@ Vue Test Utils reads the event and applies the appropriate properties to the eve
 }
 ```
 
-#### Adding extra data to an event
+#### イベントへのデータ追加 {#adding-extra-data-to-an-event}
 
-Let's say your code needs something from inside the `event` object. You can test such scenarios by passing extra data as a second parameter.
+例えば、あなたのコードが `event` オブジェクトの内部から何かを必要とするとしましょう。このようなシナリオをテストするには、2 番目のパラメータとして余分なデータを渡します。
 
 ```vue
 <template>
@@ -305,15 +305,15 @@ test('emits an event only if you lose focus to a button', () => {
 })
 ```
 
-Here we assume our code checks inside the `event` object, whether the `relatedTarget` is a button or not. We can simply pass a reference to such an element, mimicking what would happen if the user clicks on a `button` after typing something in the `input`.
+ここでは、`relatedTarget` がボタンであるかどうかを `event` オブジェクトの内部でチェックするコードを想定しています。このような要素への参照を渡すだけで、ユーザが `input` に何かを入力した後に `button` をクリックした場合に起こることを真似ることができます。
 
-## Interacting with Vue Component inputs
+## Vue Component の入力とのインタラクション {#interacting-with-vue-component-inputs}
 
-Inputs are not only plain elements. We often use Vue components that behave like inputs. They can add markup, styling and lots of functionalities in an easy to use format.
+Input はプレーンな要素だけではありません。私たちはしばしば、input のように動作する Vue コンポーネントを使用します。これらは、マークアップやスタイリング、多くの機能を使いやすい形で追加することができます。
 
-Testing forms that use such inputs can be daunting at first, but with a few simple rules, it quickly becomes a walk in the park.
+このような input を使用するフォームのテストは、最初は大変かもしれませんが、いくつかの簡単なルールを使えば、すぐに公園を散歩するようにできるようになります。
 
-Following is a Component that wraps a `label` and an `input` element:
+以下は、`label` と `input` 要素をラップした Component です:
 
 ```vue
 <template>
@@ -336,13 +336,13 @@ export default {
 </script>
 ```
 
-This Vue component also emits back whatever you type. To use it you do:
+また、この Vue コンポーネントは、あなたが入力したものをそのまま返します。使うには、次のようにします:
 
 ```html
 <custom-input v-model="input" label="Text Input" class="text-input" />
 ```
 
-As above, most of these Vue-powered inputs have a real `button` or `input` in them. You can just as easily find that element and act on it:
+上記のように、これらの Vue で動く input のほとんどは、その中に実際の `button` や `input` を持っています。その要素を見つけて、それを操作することも同様に簡単にできます:
 
 ```js
 test('fills in the form', async () => {
@@ -354,13 +354,13 @@ test('fills in the form', async () => {
 })
 ```
 
-### Testing complex Input components
+### 複雑な input コンポーネントのテスト {#testing-complex-input-components}
 
-What happens if your Input component is not that simple? You might be using a UI library, like Vuetify. If you rely on digging inside the markup to find the right element, your tests may break if the external library decides to change their internals.
+Input コンポーネントがそれほど単純でない場合はどうなるのでしょうか? Vuetify のような UI ライブラリを使用しているかもしれません。正しい要素を見つけるためにマークアップの内部を調べることに依存している場合、外部ライブラリがその内部を変更することを決定した場合、テストは壊れるかもしれません。
 
-In such cases you can set the value directly, using the component instance and `setValue`.
+そのような場合は、コンポーネントのインスタンスと `setValue` を使用して、直接値を設定することができます。
 
-Assume we have a form that uses the Vuetify textarea:
+Vuetify の textarea を使用するフォームがあると仮定します:
 
 ```vue
 <template>
@@ -387,7 +387,7 @@ export default {
 </script>
 ```
 
-We can use `findComponent` to find the component instance, and then set its value.
+`findComponent` でコンポーネントのインスタンスを見つけ、その値を設定することができます。
 
 ```js
 test('emits textarea value on submit', async () => {
@@ -402,9 +402,9 @@ test('emits textarea value on submit', async () => {
 })
 ```
 
-## Conclusion
+## 結論 {#conclusion}
 
-- Use `setValue` to set the value on both DOM inputs and Vue components.
-- Use `trigger` to trigger DOM events, both with and without modifiers.
-- Add extra event data to `trigger` using the second parameter.
-- Assert that the DOM changed and the right events got emitted. Try not to assert data on the Component instance.
+- `setValue` を使用して、DOM input と Vue コンポーネントの両方で値を設定します。
+- `trigger` を使用して、修飾子付きまたは修飾子なしの DOM イベントをトリガーします。
+- `trigger` の 2 番目のパラメータを使用して、 イベントデータを追加します。
+- DOM が変更され、正しいイベントが emit されたことを確認します。Component インスタンスにデータをアサートしないようにします。

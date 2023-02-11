@@ -46,22 +46,22 @@ export default defineConfig({
         collapsable: false,
         children: [
           { text: 'Getting Started 🇯🇵', link: '/guide/' },
-          { text: 'A Crash Course', link: '/guide/essentials/a-crash-course' },
+          { text: 'A Crash Course 🇯🇵', link: '/guide/essentials/a-crash-course' },
           {
-            text: 'Conditional Rendering',
+            text: 'Conditional Rendering 🇯🇵',
             link: '/guide/essentials/conditional-rendering'
           },
           {
-            text: 'Testing Emitted Events',
+            text: 'Testing Emitted Events 🇯🇵',
             link: '/guide/essentials/event-handling'
           },
-          { text: 'Testing Forms', link: '/guide/essentials/forms' },
+          { text: 'Testing Forms 🇯🇵', link: '/guide/essentials/forms' },
           {
-            text: 'Passing Data to Components',
+            text: 'Passing Data to Components 🇯🇵',
             link: '/guide/essentials/passing-data'
           },
           {
-            text: 'Write components that are easy to test',
+            text: 'Write components that are easy to test 🇯🇵',
             link: '/guide/essentials/easy-to-test'
           }
         ]

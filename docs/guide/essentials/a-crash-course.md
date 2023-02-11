@@ -1,16 +1,16 @@
 # A Crash Course
 
-Let's jump right into it! Let's learn Vue Test Utils (VTU) by building a simple Todo app and writing tests as we go. This
-guide will cover how to:
+さっそく始めてみましょう! Vue Test Utils (VTU) を学ぶために、簡単な Todo アプリを作り、テストを書きながら進めていきましょう。
+このガイドでは、以下の方法について説明します:
 
-- Mount components
-- Find elements
-- Fill out forms
-- Trigger events
+- Mount components: コンポーネントをマウントする
+- Find elements: 要素を見つける
+- Fill out forms: フォームに入力する
+- Trigger events: イベントのトリガー
 
 ## Getting Started
 
-We will start off with a simple `TodoApp` component with a single todo:
+まずは、Todo を 1 つ持つシンプルな `TodoApp` コンポーネントを作成します:
 
 ```vue
 <template>
@@ -36,9 +36,9 @@ export default {
 </script>
 ```
 
-## The first test - a todo is rendered
+## 最初のテスト - Todo のレンダリング {#the-first-test-a-todo-is-rendered}
 
-The first test we will write verifies a todo is rendered. Let's see the test first, then discuss each part:
+最初のテストは、Todo がレンダリングされたことを確認するものです。まずこのテストを見てから、各パーツについて説明します:
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -53,17 +53,17 @@ test('renders a todo', () => {
 })
 ```
 
-We start off by importing `mount` - this is the main way to render a component in VTU. You declare a test by using the `test` function with a short description of the test. The `test` and `expect` functions are globally available in most test runners (this example uses [Jest](https://jestjs.io/en/)). If `test` and `expect` look confusing, the Jest documentation has a [more simple example](https://jestjs.io/docs/en/getting-started) of how to use them and how they work.
+まず、 `mount` をインポートすることから始めます。これは、VTU でコンポーネントをレンダリングするための主な方法です。テストの短い説明と一緒に `test` 関数を使用してテストを宣言します。`test` 関数と `expect` 関数は、ほとんどのテストランナーでグローバルに利用可能です（この例では [Jest](https://jestjs.io/en/) を使用しています）。もし `test` と `expect` が分かりにくそうなら、Jest のドキュメントに [その使い方と動作の簡単な例](https://jestjs.io/docs/en/getting-started) があります。
 
-Next, we call `mount` and pass the component as the first argument - this is something almost every test you write will do. By convention, we assign the result to a variable called `wrapper`, since `mount` provides a simple "wrapper" around the app with some convenient methods for testing.
+次に、`mount` を呼び出し、第一引数としてコンポーネントを渡します。これは、あなたが書くほとんどすべてのテストが行うことです。`mount` は、テストに便利ないくつかのメソッドで、アプリの周りにシンプルな「ラッパー」を提供するので、結果は慣習的に `wrapper` と呼ばれる変数に代入されます。
 
-Finally, we use another global function common to many tests runner - Jest included - `expect`. The idea is we are asserting, or _expecting_, the actual output to match what we think it should be. In this case, we are finding an element with the selector `data-test="todo"` - in the DOM, this will look like `<div data-test="todo">...</div>`. We then call the `text` method to get the content, which we expect to be `'Learn Vue.js 3'`.
+最後に、多くのテストランナー（Jest も含む）に共通するもうひとつのグローバル関数 `expect` を使用します。これは、実際の出力が私たちの考えるものと一致することを保証する、あるいは _期待する_ というものです。この場合、`data-test="todo"` というセレクタを持つ要素を探します。DOM では `<div data-test="todo">...</div>` のようになります。次に、`text` メソッドを呼び出してコンテンツを取得します。コンテンツは `'Learn Vue.js 3'` であると予想されます。
 
-> Using `data-test` selectors is not required, but it can make your tests less brittle. classes and ids tend to change or move around as an application grows - by using `data-test`, it's clear to other developers which elements are used in tests, and should not be changed.
+> `data-test` セレクタを使用することは必須ではありませんが、テストをよりもろくすることができます。 クラスや id はアプリケーションの成長とともに変更されたり移動したりする傾向があります。
 
-## Making the test pass
+## テストをパスさせる {#making-the-test-pass}
 
-If we run this test now, it fails with the following error message: `Unable to get [data-test="todo"]`. That's because we aren't rendering any todo item, so the `get()` call is failing to return a wrapper (remember, VTU wraps all components, and DOM elements, in a "wrapper" with some convenient methods). Let's update `<template>` in `TodoApp.vue` to render the `todos` array:
+今、このテストを実行すると、次のようなエラーメッセージが出て失敗します: `Unable to get [data-test="todo"]`。これは、Todo 項目をレンダリングしていないので、`get()` 呼び出しがラッパーを返すのに失敗しているからです（ VTU はすべてのコンポーネント、および DOM 要素を、いくつかの便利なメソッドを持つ「ラッパー」でラップすることを思い出してください）。`TodoApp.vue` の `<template>` を更新して、`todos`の配列をレンダリングしてみましょう:
 
 ```vue
 <template>
@@ -75,11 +75,11 @@ If we run this test now, it fails with the following error message: `Unable to g
 </template>
 ```
 
-With this change, the test is passing. Congratulations! You wrote your first component test.
+この変更で、テストは合格です。おめでとうございます! あなたは最初のコンポーネントテストを書きました。
 
-## Adding a new todo
+## 新しい Todo を追加する {#adding-a-new-todo}
 
-The next feature we will be adding is for the user to be able to create a new todo. To do so, we need a form with an input for the user to type some text. When the user submits the form, we expect the new todo to be rendered. Let's take a look at the test:
+次に追加する機能は、ユーザーが新しい Todo を作成できるようにすることです。そのためには、ユーザーがテキストを入力するための入力フォームが必要です。ユーザーがフォームを送信すると、新しい Todo がレンダリングされることを期待します。では、テストを見てみましょう:
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -96,13 +96,13 @@ test('creates a todo', () => {
 })
 ```
 
-As usual, we start of by using `mount` to render the element. We are also asserting that only 1 todo is rendered - this makes it clear that we are adding an additional todo, as the final line of the test suggests.
+いつものように、まず `mount` を使って要素をレンダリングしています。また、1 つの Todo だけがレンダリングされることを表明しています。これにより、テストの最終行が示すように、追加のTodoを追加していることが明らかになります。
 
-To update the `<input>`, we use `setValue` - this allows us to set the input's value.
+`<input>` を更新するには、`setValue` を使用します - これで入力の値を設定できます。
 
-After updating the `<input>`, we use the `trigger` method to simulate the user submitting the form. Finally, we assert the number of todo items has increased from 1 to 2.
+`<input>` を更新した後、`trigger` メソッドを使用して、ユーザーがフォームを送信したことをシミュレートしています。最後に、Todo アイテムの数が 1 個から 2 個に増えたことを表明します。
 
-If we run this test, it will obviously fail. Let's update `TodoApp.vue` to have the `<form>` and `<input>` elements and make the test pass:
+このテストを実行すると、明らかに失敗します。`TodoApp.vue` を更新して `<form>` と `<input>` 要素を持たせ、テストが通るようにしましょう:
 
 ```vue
 <template>
@@ -147,9 +147,9 @@ export default {
 </script>
 ```
 
-We are using `v-model` to bind to the `<input>` and `@submit` to listen for the form submission. When the form is submitted, `createTodo` is called and inserts a new todo into the `todos` array.
+`v-model` を使って `<input>` にバインドし、`@submit` を使ってフォームの送信を待ち受けます。フォームが送信されると、`createTodo` が呼び出され、新しい Todo が `todos` 配列に挿入されます。
 
-While this looks good, running the test shows an error:
+これは良いように見えますが、テストを実行するとエラーが表示されます:
 
 ```
 expect(received).toHaveLength(expected)
@@ -159,7 +159,7 @@ expect(received).toHaveLength(expected)
     Received array:  [{"element": <div data-test="todo">Learn Vue.js 3</div>}]
 ```
 
-The number of todos has not increased. The problem is that Jest executes tests in a synchronous manner, ending the test as soon as the final function is called. Vue, however, updates the DOM asynchronously. We need to mark the test `async`, and call `await` on any methods that might cause the DOM to change. `trigger` is one such methods, and so is `setValue` - we can simply prepend `await` and the test should work as expected:
+todos は増えていません。問題は、Jest がテストを同期的に実行し、最後の関数が呼ばれると同時にテストを終了してしまうことです。しかし、Vue は DOM を非同期で更新します。テストを `async` でマークし、DOM を変更させる可能性のあるメソッドに対して `await` を呼び出す必要があります。`trigger` はそのようなメソッドの一つで、`setValue` も同様です。単に `await` を前に置くだけで、テストは期待通りに動作するはずです。
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -175,11 +175,11 @@ test('creates a todo', async () => {
 })
 ```
 
-Now the test is finally passing!
+これで、いよいよテストも合格です!
 
-## Completing a todo
+## Todo を完了させる {#completing-a-todo}
 
-Now that we can create todos, let's give the user the ability to mark a todo item as completed/uncompleted with a checkbox. As previously, let's start with the failing test:
+Todo を作成できるようになったので、ユーザーにチェックボックスで Todo 項目を完了/未完了にする機能を与えてみましょう。前回と同様に、失敗するテストから始めましょう:
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -194,11 +194,11 @@ test('completes a todo', async () => {
 })
 ```
 
-This test is similar to the previous two; we find an element and interact with it in same way (we use `setValue` again, since we are interacting with a `<input>`).
+このテストは前の 2 つと似ています。要素を見つけて、同じように操作します（`<input>` と操作しているので、再び `setValue` を使用します）。
 
-Lastly, we make an assertion. We will be applying a `completed` class to completed todos - we can then use this to add some styling to visually indicate the status of a todo.
+最後に、アサーションを行います。完了した ToDo には `completed` クラスを適用します。これを利用して、Todo の状態を視覚的に示すスタイルを追加します。
 
-We can get this test to pass by updating the `<template>` to include the `<input type="checkbox">` and a class binding on the todo element:
+`<template>` を更新して、`<input type="checkbox">` と todo 要素のクラスバインディングを含めることで、このテストに合格するようにできます:
 
 ```vue
 <template>
@@ -224,11 +224,11 @@ We can get this test to pass by updating the `<template>` to include the `<input
 </template>
 ```
 
-Congratulations! You wrote your first component tests.
+おめでとうございます! あなたは最初のコンポーネントテストを書きました。
 
 ## Arrange, Act, Assert
 
-You may have noticed some new lines between the code in each of the tests. Let's look at the second test again, in detail:
+それぞれのテストにおいて、コードの間に新しい行があることにお気づきでしょうか。もう一度、2 番目のテストを詳しく見てみましょう:
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -244,20 +244,20 @@ test('creates a todo', async () => {
 })
 ```
 
-The test is split into three distinct stages, separated by new lines. The three stages represent the three phases of a test: **arrange**, **act** and **assert**.
+テストは 3 つのステージに分けられ、改行で区切られています。この 3 つのステージは、テストの 3 つの段階、すなわち **アレンジ**、**アクション**、**アサート** を表しています。
 
-In the _arrange_ phase, we are setting up the scenario for the test. A more complex example may require creating a Vuex store, or populating a database.
+_アレンジ_ 段階では、テスト用のシナリオを設定します。より複雑な例では、Vuex ストアを作成したり、データベースにデータを入力したりする必要があるかもしれません。
 
-In the _act_ phase, we act out the scenario, simulating how a user would interact with the component or application.
+_アクション_ フェーズでは、ユーザーがコンポーネントやアプリケーションをどのように操作するかをシミュレートし、シナリオを実行します。
 
-In the _assert_ phase, we make assertions about how we expect the current state of the component to be.
+_アサート_ フェーズでは、コンポーネントの現在の状態がどのようなものであるべきかを表明します。
 
-Almost all test will follow these three phases. You don't need to separate them with new lines like this guide does, but it is good to keep these three phases in mind as you write your tests.
+ほとんどすべてのテストは、この 3 つのフェーズに従うことになります。このガイドのように改行で区切る必要はありませんが、 テストを書く際にはこの 3 つのフェーズを念頭に置いておくとよいでしょう。
 
-## Conclusion
+## 結論 {#conclusion}
 
-- Use `mount()` to render a component.
-- Use `get()` and `findAll()` to query the DOM.
-- `trigger()` and `setValue()` are helpers to simulate user input.
-- Updating the DOM is an async operation, so make sure to use `async` and `await`.
-- Testing usually consists of 3 phases; arrange, act and assert.
+- `mount()` を使用して、コンポーネントをレンダリングします。
+- DOM を照会するには、`get()` および `findAll()` を使用します。
+- `trigger()` と `setValue()` は、ユーザー入力をシミュレートするためのヘルパーです。
+- DOM の更新は非同期処理なので、`async` と `await` を必ず使用します。
+- テストは通常、arrange, act, assert の 3 つのフェーズで構成されます。

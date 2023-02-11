@@ -1,12 +1,12 @@
-# Event Handling
+# イベントハンドリング {#event-handling}
 
-Vue components interact with each other via props and by emitting events by calling `$emit`. In this guide, we look at how to verify events are correctly emitted using the `emitted()` function.
+Vue のコンポーネントは、props を介して、また `$emit` を呼び出してイベントを発行することによって、互いに作用します。このガイドでは、 `emitted()` 関数を使用して、イベントが正しく emit されたことを確認する方法について見ていきます。
 
-This article is also available as a [short video](https://www.youtube.com/watch?v=U_j-nDur4oU&list=PLC2LZCNWKL9ahK1IoODqYxKu5aA9T5IOA&index=14).
+この記事は [short video](https://www.youtube.com/watch?v=U_j-nDur4oU&list=PLC2LZCNWKL9ahK1IoODqYxKu5aA9T5IOA&index=14) でもご覧いただけます。
 
-## The Counter component
+## カウンターコンポーネント {#the-counter-component}
 
-Here is a simple `<Counter>` component. It features a button that, when clicked, increments an internal count variable and emits its value:
+ここでは、シンプルな `<Counter>` コンポーネントを紹介します。これは、クリックされると内部のカウント変数を増加させ、その値を emit するボタンを備えています:
 
 ```js
 const Counter = {
@@ -25,11 +25,11 @@ const Counter = {
 }
 ```
 
-To fully test this component, we should verify that an `increment` event with the latest `count` value is emitted.
+このコンポーネントを完全にテストするには、最新の `count` 値を持つ `increment` イベントが emit されることを確認する必要があります。
 
-## Asserting the emitted events
+## emit されたイベントのアサート {#asserting-the-emitted-events}
 
-To do so, we will rely on the `emitted()` method. It **returns an object with all the events the component has emitted**, and their arguments in an array. Let's see how it works:
+そのためには、`emitted()` メソッドに依存します。このメソッドは、**コンポーネントが emit したすべてのイベント** と、その引数を配列にしてオブジェクトを返します。どのように動作するか見てみましょう:
 
 ```js
 test('emits an event when clicked', () => {
@@ -42,17 +42,17 @@ test('emits an event when clicked', () => {
 })
 ```
 
-> If you haven't seen `trigger()` before, don't worry. It's used to simulate user interaction. You can learn more in [Forms](./forms).
+> `trigger()` を見たことがなくても、心配はいりません。これはユーザーとの対話をシミュレートするために使用されます。詳しくは [Forms](./forms) をご覧ください。
 
-The first thing to notice is that `emitted()` returns an object, where each key matches an emitted event. In this case, `increment`.
+まず、`emitted()` はオブジェクトを返し、各キーが emit したイベントにマッチすることに注意してください。この場合、`increment` です。
 
-This test should pass. We made sure we emitted an event with the appropriate name.
+このテストはパスするはずです。適切な名前のイベントを emit していることを確認しました。
 
-## Asserting the arguments of the event
+## イベントの引数のアサート {#asserting-the-arguments-of-the-event}
 
-This is good - but we can do better! We need to check that we emit the right arguments when `this.$emit('increment', this.count)` is called.
+しかし、もっとうまくいくはずです。`this.$emit('increment', this.count)` が呼ばれたときに、正しい引数を emit しているかどうかをチェックする必要があります。
 
-Our next step is to assert that the event contains the `count` value. We do so by passing an argument to `emitted()`.
+次のステップは、イベントに `count` 値が含まれていることを確認することです。そのためには、`emitted()` に引数を渡します。
 
 ```js {9}
 test('emits an event with count when clicked', () => {
@@ -61,24 +61,24 @@ test('emits an event with count when clicked', () => {
   wrapper.find('button').trigger('click')
   wrapper.find('button').trigger('click')
 
-  // `emitted()` accepts an argument. It returns an array with all the
-  // occurrences of `this.$emit('increment')`.
+  // `emitted()` は引数を受け取ります。
+  // これは `this.$emit('increment')` の出現回数をすべて含む配列を返します。
   const incrementEvent = wrapper.emitted('increment')
 
-  // We have "clicked" twice, so the array of `increment` should
-  // have two values.
+  // 2 回「クリック」しているので、`increment`の配列には
+  // 2 つの値があるはずです。
   expect(incrementEvent).toHaveLength(2)
 
-  // Assert the result of the first click.
-  // Notice that the value is an array.
+  // 1 回目のクリックの結果をアサートします。
+  // 値が配列であることに注意してください。
   expect(incrementEvent[0]).toEqual([1])
 
-  // Then, the result of the second one.
+  // 続いて、2 回目の結果です。
   expect(incrementEvent[1]).toEqual([2])
 })
 ```
 
-Let's recap and break down the output of `emitted()`. Each of these keys contains the different values emitted during the test:
+`emitted()` の出力を要約して分解してみましょう。これらのキーのそれぞれには、テスト中に emit されたさまざまな値が含まれています:
 
 ```js
 // console.log(wrapper.emitted('increment'))
@@ -88,9 +88,9 @@ Let's recap and break down the output of `emitted()`. Each of these keys contain
 ]
 ```
 
-## Asserting complex events
+## 複雑なイベントのアサート {#asserting-complex-events}
 
-Imagine that now our `<Counter>` component needs to emit an object with additional information. For instance, we need to tell any parent component listening to the `@increment` event if `count` is even or odd:
+今、私たちの `<Counter>` コンポーネントは、追加情報を持つオブジェクトを emit する必要があると想像してください。例えば、`@increment` イベントをリッスンしている親コンポーネントに、`count` が偶数か奇数かを伝える必要があります:
 
 ```js {12-15}
 const Counter = {
@@ -113,7 +113,7 @@ const Counter = {
 }
 ```
 
-As we did before, we need to trigger the `click` event on the `<button>` element. Then, we use `emitted('increment')` to make sure the right values are emitted.
+先ほどと同様に、`<button>` 要素で `click` イベントを trigger する必要があります。そして、`emitted('increment')` を使って、正しい値が emit されるようにします。
 
 ```js
 test('emits an event with count when clicked', () => {
@@ -144,14 +144,14 @@ test('emits an event with count when clicked', () => {
 })
 ```
 
-Testing complex event payloads such as Objects is no different from testing simple values such as numbers or strings.
+オブジェクトのような複雑なイベントペイロードのテストは、数値や文字列のような単純な値のテストと何ら変わりはありません。
 
-## Composition API
+## Composition API {#composition-api}
 
-If you are using the Composition API, you will be calling `context.emit()` instead of `this.$emit()`. `emitted()` captures events from both, so you can test your component using the same techniques described here.
+Composition API を使用している場合は、`this.$emit()` の代わりに `context.emit()` を呼び出します。`emitted()` は両方からイベントを取得するので、ここで説明したのと同じ手法でコンポーネントをテストすることができます。
 
-## Conclusion
+## 結論 {#conclusion}
 
-- Use `emitted()` to access the events emitted from a Vue component.
-- `emitted(eventName)` returns an array, where each element represents one event emitted.
-- Arguments are stored in `emitted(eventName)[index]` in an array in the same order they are emitted.
+- Vue コンポーネントから emit されるイベントにアクセスするには、`emitted()` を使用します。
+- `emitted(eventName)` は配列を返し、各要素は放出されたイベント 1 つを表します。
+- 引数は、`emitted(eventName)[index]` に、emit されたのと同じ順番で配列に格納されます。
