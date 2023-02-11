@@ -1,18 +1,18 @@
-# Testing Teleport
+# Teleport のテスト {#testing-teleport}
 
-Vue 3 comes with a new built-in component: `<Teleport>`, which allows components to "teleport" their content far outside of their own `<template>`. Most tests written with Vue Test Utils are scoped to the component passed to `mount`, which introduces some complexity when it comes to testing a component that is teleported outside of the component where it is initially rendered.
+Vue 3 には、新しい組み込みコンポーネントが搭載されています。`<Teleport>` は、コンポーネントが自身の `<template>` のはるか外側にそのコンテンツを「テレポート」することを可能にします。Vue Test Utils で書かれたテストのほとんどは、`mount` に渡されたコンポーネントにスコープされています。これは、最初にレンダリングされたコンポーネントの外側にテレポートされたコンポーネントをテストする際に、いくつかの複雑な問題を引き起こします。
 
-Here are some strategies and techniques for testing components using `<Teleport>`.
+ここでは、`<Teleport>` を使用したコンポーネントのテストに関する戦略やテクニックを紹介します。
 
 ::: tip
-If you want to test the rest of your component, ignoring teleport, you can stub `teleport` by passing `teleport: true` in the [global stubs option](../../api/#global-stubs).
+もし、テレポートを無視してコンポーネントの残りの部分をテストしたい場合は、[global stubs option](../../api/#global-stubs) で `teleport: true` を渡すことで、`teleport` をスタブ化できます。
 :::
 
-## Example
+## 例 {#example}
 
-In this example we are testing a `<Navbar>` component. It renders a `<Signup>` component inside of a `<Teleport>`. The `target` prop of `<Teleport>` is an element located outside of the `<Navbar>` component.
+この例では、`<Navbar>` コンポーネントをテストしています。これは、`<Teleport>` の内部に `<Signup>` コンポーネントをレンダリングします。`<Teleport>` のターゲットプロップは、`<Navbar>` コンポーネントの外側にある要素です。
 
-This is the `Navbar.vue` component:
+これは、`Navbar.vue` コンポーネントです:
 
 ```vue
 <template>
@@ -33,9 +33,9 @@ export default defineComponent({
 </script>
 ```
 
-It simply teleports a `<Signup>` somewhere else. It's simple for the purpose of this example.
+これは単に `<Signup>` をどこかにテレポートさせるだけです。この例の目的では単純なことです。
 
-`Signup.vue` is a form that validates if `username` is greater than 8 characters. If it is, when submitted, it emits a `signup` event with the `username` as the payload. Testing that will be our goal.
+`Signup.vue` は、`username` が 8 文字以上であるかどうかを検証するフォームです。もし 8 文字以上であれば、送信時に `username` をペイロードとする `signup` イベントを発行します。これをテストすることが私たちの目標です。
 
 ```vue
 <template>
@@ -70,9 +70,9 @@ export default {
 </script>
 ```
 
-## Mounting the Component
+## コンポーネントの実装 {#mounting-the-component}
 
-Starting with a minimal test:
+最小限のテストから始めます:
 
 ```ts
 import { mount } from '@vue/test-utils'
@@ -84,7 +84,7 @@ test('emits a signup event when valid', async () => {
 })
 ```
 
-Running this test will give you a warning: `[Vue warn]: Failed to locate Teleport target with selector "#modal"`. Let's create it:
+このテストを実行すると、次のような警告が表示されます: `[Vue warn]: Failed to locate Teleport target with selector "#modal"` 。では、作ってみましょう:
 
 ```ts {5-15}
 import { mount } from '@vue/test-utils'
@@ -108,20 +108,20 @@ test('teleport', async () => {
 })
 ```
 
-We are using Jest for this example, which does not reset the DOM every test. For this reason, it's good to clean up after each test with `afterEach`.
+この例では Jest を使用していますが、Jest はテストごとに DOM をリセットするわけではありません。このため、テストごとに `afterEach` でクリーンアップするのがよいでしょう。
 
-## Interacting with the Teleported Component
+## テレポートコンポーネントとの相互作用 {#interacting-with-the-teleported-component}
 
-The next thing to do is fill out the username input. Unfortunately, we cannot use `wrapper.find('input')`. Why not? A quick `console.log(wrapper.html())` shows us:
+次にやるべきことは、ユーザー名 input の入力です。残念なことに、`wrapper.find('input')` は使えません。どうしてでしょうか? `console.log(wrapper.html())` で簡単に確認できます。
 
 ```html
 <!--teleport start-->
 <!--teleport end-->
 ```
 
-We see some comments used by Vue to handle `<Teleport>` - but no `<input>`. That's because the `<Signup>` component (and its HTML) are not rendered inside of `<Navbar>` anymore - it was teleported outside.
+Vueが `<Teleport>` を処理するために使用するいくつかのコメントが表示されます - しかし `<input>` はありません。これは、`<Signup>` コンポーネント（とその HTML）が`<Navbar>` の内部でレンダリングされなくなったからです - それは外にテレポートされました。
 
-Although the actual HTML is teleported outside, it turns out the Virtual DOM associated with `<Navbar>` maintains a reference to the original component. This means you can use `getComponent` and `findComponent`, which operate on the Virtual DOM, not the regular DOM.
+実際の HTML は外部にテレポートされますが、`<Navbar>` に関連付けられた Virtual DOM は元のコンポーネントへの参照を保持していることがわかります。つまり、通常の DOM ではなく、Virtual DOM に対して操作する `getComponent` と `findComponent` を使用することができます。
 
 ```ts {12}
 beforeEach(() => {
@@ -139,9 +139,9 @@ test('teleport', async () => {
 })
 ```
 
-`getComponent` returns a `VueWrapper`. Now you can use methods like `get`, `find` and `trigger`.
+`getComponent` は `VueWrapper` を返します。これで、`get`、`find`、`trigger` などのメソッドが使えるようになりました。
 
-Let's finish the test:
+テストを終わらせましょう:
 
 ```ts {4-8}
 test('teleport', async () => {
@@ -155,9 +155,9 @@ test('teleport', async () => {
 })
 ```
 
-It passes!
+パスしました!
 
-The full test:
+テスト全体:
 
 ```ts
 import { mount } from '@vue/test-utils'
@@ -187,7 +187,7 @@ test('teleport', async () => {
 })
 ```
 
-## Conclusion
+## 結論 {#conclusion}
 
-- Create a teleport target with `document.createElement`.
-- Find teleported components using `getComponent` or `findComponent` which operate on the Virtual DOM level.
+- `document.createElement` でテレポートターゲットを作成します。
+- Virtual DOM レベルで動作する `getComponent` または `findComponent` を使用して、テレポートされたコンポーネントを見つけます。

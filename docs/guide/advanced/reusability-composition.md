@@ -5,10 +5,10 @@ Mostly:
 - `global.mixins`.
 - `global.directives`.
 
-## Testing composables
+## コンポーザブルのテスト {#testing-composables}
 
-When working with the composition API and creating composables, you often want to test only the composable. Let's start
-with a simple example:
+コンポジション API を使用してコンポーザブルを作成する場合、コンポーザブルだけをテストしたいことがよくあります。
+まずは簡単な例から見てみましょう:
 
 ```typescript
 export function useCounter() {
@@ -22,7 +22,7 @@ export function useCounter() {
 }
 ```
 
-In this case, you don't actually need `@vue/test-utils`. Here is the corresponding test:
+この場合、実際には `@vue/test-utils` は必要ありません。以下は、対応するテストです:
 
 ```typescript
 test('increase counter on call', () => {
@@ -36,8 +36,8 @@ test('increase counter on call', () => {
 })
 ```
 
-For more complex composables, which use lifecycle hooks like `onMounted` or `provide`/`inject` handling, you can create
-a simple test helper component. The following composable fetches the user data within the `onMounted` hook.
+`onMounted` や `provide`/`inject` 処理などのライフサイクルフックを使うような、 より複雑なコンポーザブルの場合は、
+シンプルなテストヘルパーコンポーネントを作成することができます。次のコンポーザブルは、`onMounted` フックの中でユーザーデータを取得します。
 
 ```typescript
 export function useUser(userId) {
@@ -54,8 +54,8 @@ export function useUser(userId) {
 }
 ```
 
-To test this composable, you can create a simple `TestComponent` within the tests. The `TestComponent` should use the
-composable the exact same way how the real components would use it.
+このコンポーザブルをテストするには、テストの中に簡単な `TestComponent` を作成します。`TestComponent` は、実際のコンポーネントが使用するのとまったく同じように、
+このコンポーザブルを使用しなければなりません。
 
 ```typescript
 // Mock API request
@@ -64,7 +64,7 @@ jest.spyOn(axios, 'get').mockResolvedValue({ data: { id: 1, name: 'User' } })
 test('fetch user on mount', async () => {
   const TestComponent = defineComponent({
     props: {
-      // Define props, to test the composable with different input arguments
+      // 異なる入力引数で composable をテストするための props を定義する。
       userId: {
         type: Number,
         required: true
@@ -72,8 +72,8 @@ test('fetch user on mount', async () => {
     },
     setup (props) {
       return {
-        // Call the composable and expose all return values into our
-        // component instance so we can access them with wrapper.vm
+        // コンポーザブルを呼び出して、全ての戻り値をコンポーネントインスタンスに公開し、
+        // wrapper.vmでアクセスできるようにします。
         ...useUser(props.userId)
       }
     }
@@ -95,13 +95,13 @@ test('fetch user on mount', async () => {
 
 ## Provide / inject
 
-Vue offers a way to pass props to all child components with `provide` and `inject`. The best way to test this behavior
-is to test the entire tree (parent + children). But sometimes this is not possible, because the tree is too complex, or
-you only want to test a single composable.
+Vue は `provide` と `inject` ですべての子コンポーネントに props を渡す方法を提供しています。この動作をテストする最良の方法は、
+ツリー全体（親 + 子）をテストすることです。しかし、ツリーが複雑すぎたり、
+単一のコンポーザブルだけをテストしたい場合など、これが不可能な場合もあります。
 
-### Testing `provide`
+### `provide` のテスト {#testing-provide}
 
-Let's assume the following component you want to test:
+テストしたい次のようなコンポーネントを想定してみましょう:
 ```vue
 <template>
   <div>
@@ -114,8 +114,8 @@ provide('my-key', 'some-data')
 </script>
 ```
 
-In this case you could either render an actual child component and test the correct usage of `provide` or you can create
-a simple test helper component and pass it into the default slot. 
+この場合、実際の子コンポーネントをレンダリングして `provide` の正しい使い方をテストするか、
+あるいは単純なテスト用ヘルパーコンポーネントを作成してそれをデフォルトのスロットに渡すことができます。
 
 ```typescript
 test('provides correct data', () => {
@@ -137,8 +137,8 @@ test('provides correct data', () => {
 })
 ```
 
-If your component does not contain a slot you can use a [`stub`](./stubs-shallow-mount.md#stubbing-a-single-child-component)
-and replace a child component with your test helper:
+コンポーネントにスロットがない場合は、[`stub`](./stubs-shallow-mount.md#stubbing-a-single-child-component) を使用して
+子コンポーネントをテストヘルパーに置き換えることができます。
 
 ```vue
 <template>
@@ -154,7 +154,7 @@ provide('my-key', 'some-data')
 </script>
 ```
 
-And the test:
+そしてテスト:
 
 ```typescript
 test('provides correct data', () => {
@@ -178,9 +178,9 @@ test('provides correct data', () => {
 })
 ```
 
-### Testing `inject`
+### `inject` のテスト {#testing-inject}
 
-When your Component uses `inject` and you need to pass data with `provide`, then you can use the `global.provide` option.
+Component が `inject` を使用していて、`provide` でデータを渡す必要がある場合、`global.provide` オプションを使用することができます。
 
 ```vue
 <template>
@@ -194,7 +194,7 @@ const value = inject('my-key')
 </script>
 ```
 
-The unit test could simply look like: 
+ユニットテストは単純に次のようになります:
 
 ```typescript
 test('renders correct data', () => {
@@ -210,9 +210,9 @@ test('renders correct data', () => {
 })
 ```
 
-## Conclusion
+## 結論 {#conclusion}
 
-- test simple composables without a component and `@vue/test-utils`
-- create a test helper component to test more complex composables
-- create a test helper component to test your component provides the correct data with `provide`
-- use `global.provide` to pass data to your component which uses `inject`
+- 簡単なコンポーザブルは、コンポーネントと `@vue/test-utils` を使わずにテストします。
+- より複雑なコンポーザブルのテストは、テストヘルパーコンポーネントを作成します
+- `provide` で正しいデータを提供するためのテストヘルパーコンポーネントを作成します。
+- `global.provide` を使って、`inject` を使うコンポーネントにデータを渡します。

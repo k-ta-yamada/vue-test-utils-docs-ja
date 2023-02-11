@@ -70,30 +70,30 @@ export default defineConfig({
         text: 'Vue Test Utils in depth',
         collapsable: false,
         children: [
-          { text: 'Slots', link: '/guide/advanced/slots' },
+          { text: 'Slots 🇯🇵', link: '/guide/advanced/slots' },
           {
-            text: 'Asynchronous Behavior',
+            text: 'Asynchronous Behavior 🇯🇵',
             link: '/guide/advanced/async-suspense'
           },
           {
-            text: 'Making HTTP Requests',
+            text: 'Making HTTP Requests 🇯🇵',
             link: '/guide/advanced/http-requests'
           },
-          { text: 'Transitions', link: '/guide/advanced/transitions' },
+          { text: 'Transitions 🇯🇵', link: '/guide/advanced/transitions' },
           {
-            text: 'Component Instance',
+            text: 'Component Instance 🇯🇵',
             link: '/guide/advanced/component-instance'
           },
           {
-            text: 'Reusability and Composition',
+            text: 'Reusability and Composition 🇯🇵',
             link: '/guide/advanced/reusability-composition'
           },
-          { text: 'Testing v-model', link: '/guide/advanced/v-model' },
-          { text: 'Testing Vuex', link: '/guide/advanced/vuex' },
-          { text: 'Testing Vue Router', link: '/guide/advanced/vue-router' },
-          { text: 'Testing Teleport', link: '/guide/advanced/teleport' },
+          { text: 'Testing v-model 🇯🇵', link: '/guide/advanced/v-model' },
+          { text: 'Testing Vuex 🇯🇵', link: '/guide/advanced/vuex' },
+          { text: 'Testing Vue Router 🇯🇵', link: '/guide/advanced/vue-router' },
+          { text: 'Testing Teleport 🇯🇵', link: '/guide/advanced/teleport' },
           {
-            text: 'Stubs and Shallow Mount',
+            text: 'Stubs and Shallow Mount 🇯🇵',
             link: '/guide/advanced/stubs-shallow-mount'
           }
         ]
