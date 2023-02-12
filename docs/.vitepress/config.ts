@@ -116,7 +116,11 @@ export default defineConfig({
       {
         text: 'API Reference',
         link: '/api/'
-      }
+      },
+      {
+        text: '日本語訳参照上のご注意',
+        link: '/notes-on-referencing-the-japanese-translation.html'
+      },
     ]
   }
 })
