@@ -1,5 +1,19 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig, HeadConfig } from 'vitepress'
 import packageJSON from '../../package.json'
+
+import { env } from 'node:process'
+
+const gtag = `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-YG9C2P9PR4');
+`
+const addtionalHeadConfig: HeadConfig[] = env.VERCEL_ENV === 'production' ? [
+  ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-YG9C2P9PR4' }],
+  ['script', {}, gtag],
+] : []
 
 export default defineConfig({
   title: `Vue Test Utils`,
@@ -11,7 +25,10 @@ export default defineConfig({
       title: `Vue Test Utils`
     }
   },
-  head: [['link', { rel: 'icon', href: `/logo.png` }]],
+  head: [
+    ...addtionalHeadConfig,
+    ['link', { rel: 'icon', href: `/logo.png` }],
+  ],
   themeConfig: {
     repo: 'k-ta-yamada/vue-test-utils-docs-ja',
     docsRepo: 'k-ta-yamada/vue-test-utils-docs-ja',

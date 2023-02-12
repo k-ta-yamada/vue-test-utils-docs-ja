@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/k-ta-yamada/vue-test-utils-docs-ja#readme",
   "dependencies": {
+    "@types/node": "^18.13.0",
     "vitepress": "0.22.4"
   }
 }
